@@ -1,0 +1,8 @@
+rootProject.name = 'ingeniousChangeSetPattern'
+
+def ig3ApiDir = file('../ingeniousFSA/ig3-api')
+def rootProjectDescriptor = settings.rootProject
+settings.createProjectDescriptor(rootProjectDescriptor, 'ig3-api', ig3ApiDir)
+
+include 'csp-api'
+
