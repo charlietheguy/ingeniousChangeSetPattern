@@ -14,12 +14,20 @@
  * Charlie The Guy
  * Date: 28/03/2015
  */
-package com.ingenious3.csp;
+package com.ingenious3.csp.writer;
 
 import com.ingenious3.annotations.Immutable;
+import com.ingenious3.collections.IItems;
+import com.ingenious3.identifier.UI;
 
 @Immutable
-public interface Writer<T> {
+public interface Writer<T> extends IItems<T> {
 
-    boolean write(T item);
+    void add(T item);
+    void revertAdd(UI ui);
+    void change(T original, T change);
+    void markDeleted(UI ui);
+    void revertMarkDeleted(UI ui);
+    boolean markedDeleted(UI ui);
+    IItems<T> itemsMarkedDeleted();
 }

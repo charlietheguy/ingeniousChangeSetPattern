@@ -14,14 +14,9 @@
  * Charlie The Guy
  * Date: 29/03/2015
  */
-package com.ingenious3.csp.changeset;
+package com.ingenious3.csp.writer;
 
-import com.ingenious3.collections.IItems;
 import com.ingenious3.csp.element.Item;
-import com.ingenious3.identifier.UI;
 
-public interface IItemsWriter extends IItems<Item> {
-    void add(Item item);
-    void revert(UI ui);
-    void change(Item original, Item change);
+public interface IItemsWriter extends Writer<Item> {
 }

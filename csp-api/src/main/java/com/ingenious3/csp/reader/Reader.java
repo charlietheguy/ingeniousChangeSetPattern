@@ -12,20 +12,13 @@
  * Lesser General Public License for more details.
  *
  * Charlie The Guy
- * Date: 29/03/2015
+ * Date: 28/03/2015
  */
-package com.ingenious3.csp.element;
+package com.ingenious3.csp.reader;
 
-import com.ingenious3.csp.persistence.IItemPersistence;
-import com.ingenious3.csp.persistence.ItemPersistence;
-import com.ingenious3.csp.reader.IItemsReader;
+import com.ingenious3.annotations.Immutable;
+import com.ingenious3.collections.IItems;
 
-public interface FactoryImpl {
-    public static Item createItem(String id){
-        return Item.valueOf(id);
-    }
-
-    static IItemPersistence createItemPersistence(IItemsReader itemsReader, ItemsWriter itemsWriter, boolean alwaysPersist) {
-        return ItemPersistence.valueOf(itemsReader, itemsWriter, alwaysPersist);
-    }
+@Immutable
+public interface Reader<T> extends IItems<T> {
 }

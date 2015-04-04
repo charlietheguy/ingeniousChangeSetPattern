@@ -14,34 +14,39 @@
  * Charlie The Guy
  * Date: 29/03/2015
  */
-package com.ingenious3.csp.persistence;
 
-import com.ingenious3.csp.changeset.IItemsWriter;
+package com.ingenious3.csp.builder;
+
+import com.ingenious3.collections.IItems;
 import com.ingenious3.csp.element.Item;
-import com.ingenious3.identifier.UI;
+import com.ingenious3.csp.element.ItemsReader;
+import com.ingenious3.csp.element.ItemsWriter;
 import com.ingenious3.validation.IValidate;
 
-public final class ItemPersistence implements IItemPersistence {
+import java.util.Set;
 
-    private IItemsWriter set;
+public class ItemsBuilder {
 
-    private ItemPersistence(IItemsWriter itemsWriter){
-        this.set = itemsWriter;
+    private Set<Item> set;
+
+    public ItemsBuilder set(Set<Item> set){
+        IValidate.validate(set);
+        this.set = IItems.unmodifiableSet(set);
+        return this;
     }
 
-    public static ItemPersistence valueOf(IItemsWriter itemsWriter) {
-        IValidate.validate(itemsWriter);
-
-        return new ItemPersistence(itemsWriter);
+    public ItemsWriter buildWriter() {
+        check();
+        return ItemsWriter.valueOf(set);
     }
 
-    @Override
-    public Item get(UI id) {
-        return this.set.get(id);
+    public ItemsReader buildReader() {
+        check();
+        return ItemsReader.valueOf(set);
     }
 
-    @Override
-    public void add(Item item) {
-        this.set.add(item);
+    public ItemsBuilder check() {
+        IValidate.validate(set);
+        return this;
     }
 }

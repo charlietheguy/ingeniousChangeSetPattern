@@ -16,69 +16,101 @@
  */
 package com.ingenious3.csp.element;
 
-import com.ingenious3.annotations.Dependency;
-import com.ingenious3.annotations.Optimized;
 import com.ingenious3.collections.IItems;
-import com.ingenious3.csp.changeset.IItemsWriter;
+import com.ingenious3.csp.writer.IItemsWriter;
+import com.ingenious3.exceptions.IngeniousExceptionsFactory;
 import com.ingenious3.identifier.UI;
 import com.ingenious3.util.IngeniousUtils;
+import com.ingenious3.validation.IValidate;
 
 import java.util.Map;
 import java.util.Set;
 
 public final class ItemsWriter implements IItemsWriter {
 
-    private final boolean transactional;
-    private final boolean reflected;
     private Map<UI, Item> items;
+    private Map<UI, Item> toDelete;
 
-    private ItemsWriter(Set<Item> set, boolean transactional, boolean reflected) {
-        this.transactional = transactional;
-        this.reflected = reflected;
+    private ItemsWriter(Set<Item> set) {
         this.items = IngeniousUtils.newConcurrentMap();
         set.forEach(item -> this.items.put(item, item));
+        this.toDelete = IngeniousUtils.newConcurrentMap();
     }
 
-    public static ItemsWriter valueOf(Set<Item> set, boolean transactional, boolean reflected) {
-        return new ItemsWriter(set, transactional, reflected);
+    public static ItemsWriter valueOf(Set<Item> set) {
+        return new ItemsWriter(set);
     }
 
     public void add(Item item) {
+        IValidate.validate(item);
+
         this.items.put(item, item);
     }
 
     public void change(Item original, Item change) {
-        this.items.put(original, change);
+        IValidate.validate(original);
+        IValidate.validate(change);
+
+        revertAdd(original);
+        add(change);
     }
 
-    public Item get(Item item) {
-        return this.items.get(item);
+    @Override
+    public void markDeleted(UI ui) {
+        IValidate.validate(ui);
+
+        toDelete.put(ui, get(ui));
     }
 
-    public void revert(UI ui) {
-        this.items.remove(ui);
+    @Override
+    public void revertMarkDeleted(UI ui) {
+        IValidate.validate(ui);
+
+        if(IItems.containsValue(get(ui), toDelete)){
+            toDelete.remove(ui);
+            return;
+        }
+
+        throw IngeniousExceptionsFactory.illegalArgument("Key ui {} does not exist in the map with items marked as deleted.", ui);
     }
 
-    public static ItemsWriter empty(){return ItemsWriter.valueOf(IngeniousUtils.newConcurrentSet(), true, true);}
+    @Override
+    public boolean markedDeleted(UI ui) {
+        IValidate.validate(ui);
 
-    @Optimized(info = "Optimized not to count the set everytime in items() function.")
-    @Dependency(values = {Map.class}, info = "Providing a fast itemSet to the map.")
-    private Set<Item> itemsSet;
+        return toDelete.containsKey(ui);
+    }
+
+    @Override
+    public IItems<Item> itemsMarkedDeleted() {
+        Set<Item> set = IngeniousUtils.newConcurrentSet();
+        set.addAll(toDelete.values());
+        return Factory.createImmutableItems(set);
+    }
+
+    public void revertAdd(UI original) {
+        IValidate.validate(original);
+
+        this.items.remove(original);
+    }
+
+
+    public static ItemsWriter empty(){return ItemsWriter.valueOf(IngeniousUtils.newConcurrentSet());}
 
     @Override
     public Set<Item> items() {
-        return itemsSet;
+        Set<Item> set = IngeniousUtils.newConcurrentSet();
+        set.addAll(this.items.values());
+        return set;
     }
 
     @Override
-    public boolean containsValue(Item state) {
-        return IItems.containsValue(state, items);
+    public boolean containsValue(Item item) {
+        return IItems.containsValue(item, items);
     }
 
     @Override
-    public boolean containsKey(UI ui) {
-        return IItems.containsKey(ui, items);
-    }
+    public boolean containsKey(UI ui) { return IItems.containsKey(ui, items); }
 
     @Override
     public Item get(UI id) {

@@ -12,21 +12,18 @@
  * Lesser General Public License for more details.
  *
  * Charlie The Guy
- * Date: 28/03/2015
+ * Date: 04/04/2015
  */
-package com.ingenious3.csp;
+package com.ingenious3.csp.element;
 
-import com.ingenious3.annotations.Immutable;
-import com.ingenious3.csp.element.Item;
-import com.ingenious3.csp.persistence.IPersistence;
-import com.ingenious3.identifier.UI;
+import com.ingenious3.builder.ImmutableItemsBuilder;
+import com.ingenious3.collections.IItems;
 
-@Immutable
-public interface ItemReader extends Reader<Item> {
+import java.util.Set;
 
-    Item get(UI id);
+public interface Factory {
 
-    public static <Item> Item read(IPersistence<Item> source, UI id){
-        return Reader.read(source, id);
+    static <T> IItems<T> createImmutableItems(Set<T> items) {
+        return new ImmutableItemsBuilder().addAll(items).build();
     }
 }

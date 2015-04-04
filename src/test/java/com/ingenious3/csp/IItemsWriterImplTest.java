@@ -16,7 +16,7 @@
  */
 package com.ingenious3.csp;
 
-import com.ingenious3.csp.builder.ItemsWriterBuilder;
+import com.ingenious3.csp.builder.ItemsBuilder;
 import com.ingenious3.csp.element.FactoryImpl;
 import com.ingenious3.csp.element.Item;
 import com.ingenious3.csp.element.ItemsWriter;
@@ -32,7 +32,7 @@ public class IItemsWriterImplTest {
 
     @Test
     public void testChangeSet(){
-        ItemsWriter changeItemsWriter = new ItemsWriterBuilder().set(IngeniousUtils.newConcurrentSet()).transactional(true).reflected(true).build();
+        ItemsWriter changeItemsWriter = new ItemsBuilder().set(IngeniousUtils.newConcurrentSet()).buildWriter();
 
         Item str = FactoryImpl.createItem("Original");
         changeItemsWriter.add(str);
@@ -41,12 +41,14 @@ public class IItemsWriterImplTest {
 
         changeItemsWriter.change(str, FactoryImpl.createItem("Modified."));
 
-        Assert.assertEquals(FactoryImpl.createItem("Modified."), changeItemsWriter.get(str));
+        Set<Item> items = changeItemsWriter.items();
+        Assert.assertEquals("Original item was changed.",1, items.size());
+        Assert.assertEquals(FactoryImpl.createItem("Modified."),items.iterator().next());
     }
 
     @Test
     public void testChangeSetNotReflected() {
-        ItemsWriter changeItemsWriter = new ItemsWriterBuilder().set(IngeniousUtils.newConcurrentSet()).transactional(true).reflected(false).build();
+        ItemsWriter changeItemsWriter = new ItemsBuilder().set(IngeniousUtils.newConcurrentSet()).buildWriter();
         Item str = FactoryImpl.createItem("Original");
         changeItemsWriter.add(str);
     }
@@ -54,20 +56,30 @@ public class IItemsWriterImplTest {
     @Test(expected = IngeniousIllegalArgumentException.class)
     public void testOtherMethod(){
         Set<Item> set = IngeniousUtils.newConcurrentSet();
-        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsWriterBuilder().set(set).transactional(true).reflected(true).build());
+        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder().set(set).buildReader(), new ItemsBuilder().set(set).buildWriter(), false);
         Item id = FactoryImpl.createItem("Whatever");
 
-        ItemReader.read(source, id);
+        source.get(id);
     }
 
-    @Test
-    public void testReadWriteRead(){
+    @Test(expected = IngeniousIllegalArgumentException.class)
+    public void testReadWriteReadNonPersistent(){
         Set<Item> set = IngeniousUtils.newConcurrentSet();
-        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsWriterBuilder().set(set).transactional(true).reflected(true).build());
+        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder().set(set).buildReader(), new ItemsBuilder().set(set).buildWriter(), false);
         Item id = FactoryImpl.createItem("Whatever");
 
         source.add(id);
-        Item i = ItemReader.read(source, id);
+        Item i = source.get(id);
+    }
+
+    @Test
+    public void testReadWriteReadPersistent(){
+        Set<Item> set = IngeniousUtils.newConcurrentSet();
+        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder().set(set).buildReader(), new ItemsBuilder().set(set).buildWriter(), true);
+        Item id = FactoryImpl.createItem("Whatever");
+
+        source.add(id);
+        Item i = source.get(id);
         Assert.assertEquals(id, i);
     }
 }

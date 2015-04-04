@@ -16,11 +16,15 @@
  */
 package com.ingenious3.csp.persistence;
 
+import com.ingenious3.csp.reader.Reader;
 import com.ingenious3.identifier.UI;
 
 public interface IPersistence<T> {
 
     T get(UI id);
 
-    void add(T item);
+    IPersistence<T> add(T item);
+
+    Reader<T> itemsToPersist();
+
 }

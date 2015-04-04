@@ -14,18 +14,11 @@
  * Charlie The Guy
  * Date: 28/03/2015
  */
-package com.ingenious3.csp;
+package com.ingenious3.csp.reader;
 
 import com.ingenious3.annotations.Immutable;
-import com.ingenious3.csp.persistence.IPersistence;
-import com.ingenious3.identifier.UI;
+import com.ingenious3.csp.element.Item;
 
 @Immutable
-public interface Reader<T> {
-
-    T get(UI id);
-
-    public static <T> T read(IPersistence<T> source, UI id){
-        return source.get(id);
-    }
+public interface IItemsReader extends Reader<Item> {
 }

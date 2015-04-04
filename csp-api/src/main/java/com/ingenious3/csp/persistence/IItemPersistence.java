@@ -1,7 +1,3 @@
-package com.ingenious3.csp.persistence;
-
-import com.ingenious3.csp.element.Item;
-
 /*
  * (C) Copyright 2015 Charlie The Guy (http://ingenious3.com/) and others.
  *
@@ -18,5 +14,9 @@ import com.ingenious3.csp.element.Item;
  * Charlie The Guy
  * Date: 29/03/2015
  */
+package com.ingenious3.csp.persistence;
+
+import com.ingenious3.csp.element.Item;
+
 public interface IItemPersistence extends IPersistence<Item> {
 }
