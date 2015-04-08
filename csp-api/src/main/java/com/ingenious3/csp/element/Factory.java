@@ -16,14 +16,7 @@
  */
 package com.ingenious3.csp.element;
 
-import com.ingenious3.builder.ImmutableItemsBuilder;
-import com.ingenious3.collections.IItems;
-
-import java.util.Set;
 
 public interface Factory {
 
-    static <T> IItems<T> createImmutableItems(Set<T> items) {
-        return new ImmutableItemsBuilder().addAll(items).build();
-    }
 }

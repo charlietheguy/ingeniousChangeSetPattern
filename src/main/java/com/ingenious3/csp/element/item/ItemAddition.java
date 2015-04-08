@@ -12,24 +12,16 @@
  * Lesser General Public License for more details.
  *
  * Charlie The Guy
- * Date: 28/03/2015
+ * Date: 07/04/2015
  */
-package com.ingenious3.csp.writer;
+package com.ingenious3.csp.element.item;
 
-import com.ingenious3.annotations.Immutable;
-import com.ingenious3.collections.IItems;
-import com.ingenious3.identifier.UI;
+import com.ingenious3.csp.element.Item;
+import com.ingenious3.identifier.Identifier;
 
-@Immutable
-public interface Writer<T> extends IItems<T> {
+public class ItemAddition extends AbstractItemOperation implements Identifier {
 
-    void add(T item);
-    void revertAdd(UI ui);
-    void change(T original, T change);
-    void markDeleted(UI ui);
-    void revertMarkDeleted(UI ui);
-    boolean markedDeleted(UI ui);
-    IItems<T> itemsMarkedDeleted();
-    public T getAdd(UI ui);
-    public T getDelete(UI ui);
+    public ItemAddition(Item item) {
+        super(item, ItemDecoratorType.ADD);
+    }
 }

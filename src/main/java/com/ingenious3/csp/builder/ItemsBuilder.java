@@ -18,9 +18,11 @@
 package com.ingenious3.csp.builder;
 
 import com.ingenious3.collections.IItems;
+import com.ingenious3.csp.element.IObservableItemsWriter;
 import com.ingenious3.csp.element.Item;
-import com.ingenious3.csp.element.ItemsReader;
-import com.ingenious3.csp.element.ItemsWriter;
+import com.ingenious3.csp.element.ObservableItemsWriter;
+import com.ingenious3.csp.persistence.ItemsReader;
+import com.ingenious3.csp.persistence.ItemsWriter;
 import com.ingenious3.validation.IValidate;
 
 import java.util.Set;
@@ -38,6 +40,11 @@ public class ItemsBuilder {
     public ItemsWriter buildWriter() {
         check();
         return ItemsWriter.valueOf(set);
+    }
+
+    public IObservableItemsWriter buildObservableWriter() {
+        check();
+        return ObservableItemsWriter.valueOf(buildWriter());
     }
 
     public ItemsReader buildReader() {

@@ -16,17 +16,23 @@
  */
 package com.ingenious3.csp.persistence;
 
-import com.ingenious3.csp.reader.Reader;
-import com.ingenious3.identifier.UI;
+import com.ingenious3.collections.AbstractIItems;
+import com.ingenious3.csp.element.Item;
+import com.ingenious3.csp.reader.IItemsReader;
+import com.ingenious3.util.IngeniousUtils;
 
-import java.util.Observer;
+import java.util.Set;
 
-public interface IPersistence<T> {
+public final class ItemsReader extends AbstractIItems<Item> implements IItemsReader {
 
-    T get(UI id);
+    private ItemsReader(Set<Item> set) {
+        super(set);
+    }
 
-    IPersistence<T> add(T item);
+    public static ItemsReader valueOf(Set<Item> set) {
+        return new ItemsReader(set);
+    }
 
-    Reader<T> itemsToPersist();
+    public static ItemsReader empty(){return ItemsReader.valueOf(IngeniousUtils.newConcurrentSet());}
 
 }

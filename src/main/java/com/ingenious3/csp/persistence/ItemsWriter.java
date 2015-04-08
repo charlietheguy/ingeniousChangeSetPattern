@@ -14,9 +14,12 @@
  * Charlie The Guy
  * Date: 29/03/2015
  */
-package com.ingenious3.csp.element;
+package com.ingenious3.csp.persistence;
 
+import com.ingenious3.collections.AbstractIItems;
 import com.ingenious3.collections.IItems;
+import com.ingenious3.csp.element.FactoryImpl;
+import com.ingenious3.csp.element.Item;
 import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
 import com.ingenious3.identifier.UI;
@@ -26,15 +29,16 @@ import com.ingenious3.validation.IValidate;
 import java.util.Map;
 import java.util.Set;
 
-public final class ItemsWriter implements IItemsWriter {
+public final class ItemsWriter extends AbstractIItems<Item> implements IItemsWriter {
 
-    private Map<UI, Item> items;
-    private Map<UI, Item> toDelete;
+    private final Map<UI, Item> toDelete;
+    private final Map<UI, Item> toAdd;
+
 
     private ItemsWriter(Set<Item> set) {
-        this.items = IngeniousUtils.newConcurrentMap();
-        set.forEach(item -> this.items.put(item, item));
+        super(set);
         this.toDelete = IngeniousUtils.newConcurrentMap();
+        this.toAdd = IngeniousUtils.newConcurrentMap();
     }
 
     public static ItemsWriter valueOf(Set<Item> set) {
@@ -44,7 +48,7 @@ public final class ItemsWriter implements IItemsWriter {
     public void add(Item item) {
         IValidate.validate(item);
 
-        this.items.put(item, item);
+        this.toAdd.put(item, item);
     }
 
     public void change(Item original, Item change) {
@@ -85,58 +89,31 @@ public final class ItemsWriter implements IItemsWriter {
     public IItems<Item> itemsMarkedDeleted() {
         Set<Item> set = IngeniousUtils.newConcurrentSet();
         set.addAll(toDelete.values());
-        return Factory.createImmutableItems(set);
+        return FactoryImpl.createImmutableItems(set);
     }
 
     public void revertAdd(UI original) {
         IValidate.validate(original);
+        IValidate.validate(this.toAdd.containsKey(original));
 
-        this.items.remove(original);
+        this.toAdd.remove(original);
     }
+
+    public Item getAdd(UI ui) {
+        IValidate.validate(ui);
+        IValidate.validate(this.toAdd.containsKey(ui));
+
+        return this.toAdd.get(ui);
+    }
+
+    public Item getDelete(UI ui) {
+        IValidate.validate(ui);
+        IValidate.validate(this.toDelete.containsKey(ui));
+
+        return this.toDelete.get(ui);
+    }
+
 
 
     public static ItemsWriter empty(){return ItemsWriter.valueOf(IngeniousUtils.newConcurrentSet());}
-
-    @Override
-    public Set<Item> items() {
-        Set<Item> set = IngeniousUtils.newConcurrentSet();
-        set.addAll(this.items.values());
-        return set;
-    }
-
-    @Override
-    public boolean containsValue(Item item) {
-        return IItems.containsValue(item, items);
-    }
-
-    @Override
-    public boolean containsKey(UI ui) { return IItems.containsKey(ui, items); }
-
-    @Override
-    public Item get(UI id) {
-        return IItems.defensiveCopyOf(id, items);
-    }
-
-    @Override
-    public String toString(){ return IItems.toString(items); }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ItemsWriter states = (ItemsWriter) o;
-
-        if (!items.equals(states.items)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return items.hashCode();
-    }
-
-    @Override
-    public boolean isEmpty() {return IItems.empty(items.keySet());}
 }

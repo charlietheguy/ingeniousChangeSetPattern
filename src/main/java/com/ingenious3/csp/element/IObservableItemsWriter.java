@@ -12,24 +12,12 @@
  * Lesser General Public License for more details.
  *
  * Charlie The Guy
- * Date: 28/03/2015
+ * Date: 06/04/2015
  */
-package com.ingenious3.csp.writer;
+package com.ingenious3.csp.element;
 
-import com.ingenious3.annotations.Immutable;
-import com.ingenious3.collections.IItems;
-import com.ingenious3.identifier.UI;
+import com.ingenious3.csp.writer.IItemsWriter;
+import com.ingenious3.pattern.observer.IObservable;
 
-@Immutable
-public interface Writer<T> extends IItems<T> {
-
-    void add(T item);
-    void revertAdd(UI ui);
-    void change(T original, T change);
-    void markDeleted(UI ui);
-    void revertMarkDeleted(UI ui);
-    boolean markedDeleted(UI ui);
-    IItems<T> itemsMarkedDeleted();
-    public T getAdd(UI ui);
-    public T getDelete(UI ui);
+public interface IObservableItemsWriter extends IObservable, IItemsWriter {
 }

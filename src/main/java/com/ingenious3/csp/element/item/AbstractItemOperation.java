@@ -12,21 +12,30 @@
  * Lesser General Public License for more details.
  *
  * Charlie The Guy
- * Date: 29/03/2015
+ * Date: 07/04/2015
  */
-package com.ingenious3.csp.persistence;
+package com.ingenious3.csp.element.item;
 
-import com.ingenious3.csp.reader.Reader;
-import com.ingenious3.identifier.UI;
+import com.ingenious3.csp.element.Item;
 
-import java.util.Observer;
+public abstract class AbstractItemOperation implements ItemDecorator {
+    private final Item item;
+    private final ItemDecoratorType type;
 
-public interface IPersistence<T> {
+    enum ItemDecoratorType {ADD, REVERTADD, DELETE, REVERTDELETE};
 
-    T get(UI id);
+    AbstractItemOperation(final Item item, ItemDecoratorType type){
+        this.item = item;
+        this.type = type;
+    }
 
-    IPersistence<T> add(T item);
+    // TODO: Package private?
+    Item item(){
+        return item;
+    }
 
-    Reader<T> itemsToPersist();
-
+    @Override
+    public String toString(){
+        return type.name() + " : " + item.toString();
+    }
 }

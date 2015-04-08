@@ -24,9 +24,13 @@ import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
 import com.ingenious3.identifier.UI;
 import com.ingenious3.validation.IValidate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Immutable
 public final class ItemPersistence implements IItemPersistence {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ItemPersistence.class);
 
     private final boolean alwaysPersist;
     private final IItemsReader read;
@@ -42,7 +46,8 @@ public final class ItemPersistence implements IItemPersistence {
         IValidate.validate(itemsReader);
         IValidate.validate(itemsWriter);
 
-        return new ItemPersistence(itemsReader, itemsWriter, alwaysPersist);
+        ItemPersistence persistence = new ItemPersistence(itemsReader, itemsWriter, alwaysPersist);
+        return persistence;
     }
 
     @Override
@@ -74,4 +79,5 @@ public final class ItemPersistence implements IItemPersistence {
     public IItemsReader itemsToPersist() {
         return (IItemsReader)(new ImmutableItemsBuilder<Item>().addAll(write.items())).build();
     }
+
 }
