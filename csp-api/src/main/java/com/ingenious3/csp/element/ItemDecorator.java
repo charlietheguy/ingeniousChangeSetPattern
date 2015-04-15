@@ -14,7 +14,10 @@
  * Charlie The Guy
  * Date: 07/04/2015
  */
-package com.ingenious3.csp.element.item;
+package com.ingenious3.csp.element;
 
-public interface ItemDecorator {
+import com.ingenious3.csp.persistence.IDecorator;
+
+public interface ItemDecorator extends IDecorator<Item> {
+    Item item();
 }

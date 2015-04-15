@@ -18,7 +18,6 @@ package com.ingenious3.csp.persistence;
 
 import com.ingenious3.collections.AbstractIItems;
 import com.ingenious3.collections.IItems;
-import com.ingenious3.csp.element.FactoryImpl;
 import com.ingenious3.csp.element.Item;
 import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
@@ -85,12 +84,6 @@ public final class ItemsWriter extends AbstractIItems<Item> implements IItemsWri
         return toDelete.containsKey(ui);
     }
 
-    @Override
-    public IItems<Item> itemsMarkedDeleted() {
-        Set<Item> set = IngeniousUtils.newConcurrentSet();
-        set.addAll(toDelete.values());
-        return FactoryImpl.createImmutableItems(set);
-    }
 
     public void revertAdd(UI original) {
         IValidate.validate(original);
@@ -113,6 +106,21 @@ public final class ItemsWriter extends AbstractIItems<Item> implements IItemsWri
         return this.toDelete.get(ui);
     }
 
+    @Override
+    public Set<Item> deleteItems() {
+        // TODO: Fix this
+        Set<Item> set = IngeniousUtils.newConcurrentSet();
+        set.addAll(this.toDelete.values());
+        return IItems.unmodifiableSet(set);
+    }
+
+    @Override
+    public Set<Item> addItems() {
+        // TODO: Fix this
+        Set<Item> set = IngeniousUtils.newConcurrentSet();
+        set.addAll(this.toAdd.values());
+        return IItems.unmodifiableSet(set);
+    }
 
 
     public static ItemsWriter empty(){return ItemsWriter.valueOf(IngeniousUtils.newConcurrentSet());}

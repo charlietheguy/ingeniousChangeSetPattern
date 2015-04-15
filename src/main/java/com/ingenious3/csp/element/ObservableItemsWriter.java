@@ -16,7 +16,6 @@
  */
 package com.ingenious3.csp.element;
 
-import com.ingenious3.collections.IItems;
 import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.identifier.UI;
 import com.ingenious3.validation.IValidate;
@@ -88,11 +87,6 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
     }
 
     @Override
-    public IItems<Item> itemsMarkedDeleted() {
-        return itemsWriter.itemsMarkedDeleted();
-    }
-
-    @Override
     public boolean containsKey(UI ui) {
         return itemsWriter.containsKey(ui);
     }
@@ -115,6 +109,16 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
     @Override
     public Item getDelete(UI ui) {
         return itemsWriter.getDelete(ui);
+    }
+
+    @Override
+    public Set<Item> deleteItems() {
+        return itemsWriter.deleteItems();
+    }
+
+    @Override
+    public Set<Item> addItems() {
+        return itemsWriter.addItems();
     }
 
     @Override

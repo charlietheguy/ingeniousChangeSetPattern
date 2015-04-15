@@ -12,14 +12,12 @@
  * Lesser General Public License for more details.
  *
  * Charlie The Guy
- * Date: 07/04/2015
+ * Date: 09/04/2015
  */
-package com.ingenious3.csp.element.item;
+package com.ingenious3.csp.persistence;
 
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.identifier.Identifier;
 
-public final class ItemDeletion extends AbstractItemOperation{
-    public ItemDeletion(Item item) {
-        super(item, ItemDecoratorType.DELETE);
-    }
+public interface IDecorator<T> extends Identifier {
+    T item();
 }

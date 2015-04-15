@@ -16,10 +16,7 @@
  */
 package com.ingenious3.csp.persistence;
 
-import com.ingenious3.csp.element.FactoryImpl;
-import com.ingenious3.csp.element.IObservableItemsWriter;
-import com.ingenious3.csp.element.Item;
-import com.ingenious3.csp.element.item.ItemDecorator;
+import com.ingenious3.csp.element.*;
 import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.csp.reader.Reader;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
@@ -35,7 +32,7 @@ public final class ItemPersistenceObservable implements IPersistenceDecorator, O
 
     private static final Logger LOG = LoggerFactory.getLogger(ItemPersistenceObservable.class);
 
-    private final IItemPersistence persistence;
+    private IPersistence<Item> persistence;
 
     public ItemPersistenceObservable(IItemPersistence persistence) {
         this.persistence = persistence;
@@ -61,6 +58,8 @@ public final class ItemPersistenceObservable implements IPersistenceDecorator, O
         }
 
         ItemDecorator itemDecorator = (ItemDecorator)arg;
+
+        this.persistence = persist(itemDecorator);
         LOG.info("================= Tried to work it out.{}", itemDecorator);
     }
 
@@ -78,5 +77,20 @@ public final class ItemPersistenceObservable implements IPersistenceDecorator, O
     @Override
     public Reader<Item> itemsToPersist() {
         return persistence.itemsToPersist();
+    }
+
+    @Override
+    public void remove(Item item) {
+        persistence.remove(item);
+    }
+
+    private IPersistence<Item> persist(ItemDecorator decorator) {
+        Decorated<Item> decoratedItems = FactoryImpl.decoratedItems(decorator);
+        return persist(decoratedItems);
+    }
+
+    @Override
+    public IPersistence<Item> persist(Decorated<Item> decorator) {
+        return persistence.persist(decorator);
     }
 }

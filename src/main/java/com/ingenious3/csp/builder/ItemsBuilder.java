@@ -18,9 +18,9 @@
 package com.ingenious3.csp.builder;
 
 import com.ingenious3.collections.IItems;
+import com.ingenious3.csp.element.FactoryImpl;
 import com.ingenious3.csp.element.IObservableItemsWriter;
 import com.ingenious3.csp.element.Item;
-import com.ingenious3.csp.element.ObservableItemsWriter;
 import com.ingenious3.csp.persistence.ItemsReader;
 import com.ingenious3.csp.persistence.ItemsWriter;
 import com.ingenious3.validation.IValidate;
@@ -31,29 +31,22 @@ public class ItemsBuilder {
 
     private Set<Item> set;
 
-    public ItemsBuilder set(Set<Item> set){
+    public ItemsBuilder (Set<Item> set){
         IValidate.validate(set);
+        set.parallelStream().forEach(item -> IValidate.validate(item));
         this.set = IItems.unmodifiableSet(set);
-        return this;
     }
 
     public ItemsWriter buildWriter() {
-        check();
-        return ItemsWriter.valueOf(set);
+        return FactoryImpl.itemsWriter(set);
     }
 
     public IObservableItemsWriter buildObservableWriter() {
-        check();
-        return ObservableItemsWriter.valueOf(buildWriter());
+        return FactoryImpl.observableItemsWriter(buildWriter());
     }
 
     public ItemsReader buildReader() {
-        check();
-        return ItemsReader.valueOf(set);
+        return FactoryImpl.itemsReader(set);
     }
 
-    public ItemsBuilder check() {
-        IValidate.validate(set);
-        return this;
-    }
 }

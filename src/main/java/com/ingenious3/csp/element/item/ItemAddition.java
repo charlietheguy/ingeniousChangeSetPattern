@@ -17,10 +17,8 @@
 package com.ingenious3.csp.element.item;
 
 import com.ingenious3.csp.element.Item;
-import com.ingenious3.identifier.Identifier;
 
-public class ItemAddition extends AbstractItemOperation implements Identifier {
-
+public final class ItemAddition extends AbstractItemOperation {
     public ItemAddition(Item item) {
         super(item, ItemDecoratorType.ADD);
     }

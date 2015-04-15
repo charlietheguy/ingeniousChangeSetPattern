@@ -18,6 +18,7 @@ package com.ingenious3.csp.persistence;
 
 import com.ingenious3.annotations.Immutable;
 import com.ingenious3.builder.ImmutableItemsBuilder;
+import com.ingenious3.csp.element.Decorated;
 import com.ingenious3.csp.element.Item;
 import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.csp.writer.IItemsWriter;
@@ -26,6 +27,8 @@ import com.ingenious3.identifier.UI;
 import com.ingenious3.validation.IValidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Set;
 
 @Immutable
 public final class ItemPersistence implements IItemPersistence {
@@ -79,5 +82,21 @@ public final class ItemPersistence implements IItemPersistence {
     public IItemsReader itemsToPersist() {
         return (IItemsReader)(new ImmutableItemsBuilder<Item>().addAll(write.items())).build();
     }
+
+    @Override
+    public void remove(Item item) {
+        LOG.info("To do the removal from read and deletion from write");
+    }
+
+    @Override
+    public IPersistence<Item> persist(Decorated<Item> decorators) {
+        Set<Item> items = this.read.items();
+        items.addAll(this.write.items());
+        items.removeAll(this.write.deleteItems());
+        items.addAll(this.write.addItems());
+        ItemsReader reader = ItemsReader.valueOf(items);
+        return ItemPersistence.valueOf(reader, ItemsWriter.empty(), alwaysPersist);
+    }
+
 
 }

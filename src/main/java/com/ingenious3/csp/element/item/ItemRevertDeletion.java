@@ -20,6 +20,6 @@ import com.ingenious3.csp.element.Item;
 
 public class ItemRevertDeletion extends AbstractItemOperation{
     public ItemRevertDeletion(Item item) {
-        super(item, ItemDecoratorType.REVERTDELETE);
+        super(item, ItemDecoratorType.REVERT_DELETE);
     }
 }

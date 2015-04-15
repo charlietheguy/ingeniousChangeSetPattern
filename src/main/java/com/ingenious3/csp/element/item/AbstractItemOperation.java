@@ -16,26 +16,35 @@
  */
 package com.ingenious3.csp.element.item;
 
+import com.ingenious3.annotations.Immutable;
 import com.ingenious3.csp.element.Item;
+import com.ingenious3.csp.element.ItemDecorator;
+import com.ingenious3.identifier.Identifier;
+import com.ingenious3.identifier.UI;
+import com.ingenious3.validation.IValidate;
 
-public abstract class AbstractItemOperation implements ItemDecorator {
+public abstract class AbstractItemOperation extends UI implements ItemDecorator, Identifier {
     private final Item item;
     private final ItemDecoratorType type;
 
-    enum ItemDecoratorType {ADD, REVERTADD, DELETE, REVERTDELETE};
+    enum ItemDecoratorType {ADD, REVERT_ADD, DELETE, REVERT_DELETE}
 
     AbstractItemOperation(final Item item, ItemDecoratorType type){
+        super(item);
+
+        IValidate.validate(item.getClass().isAnnotationPresent(Immutable.class));
+
         this.item = item;
         this.type = type;
     }
 
-    // TODO: Package private?
-    Item item(){
+    @Override
+    public Item item(){
         return item;
     }
 
     @Override
     public String toString(){
-        return type.name() + " : " + item.toString();
+        return new StringBuilder(type.name()).append(" : ").append(item.toString()).toString();
     }
 }

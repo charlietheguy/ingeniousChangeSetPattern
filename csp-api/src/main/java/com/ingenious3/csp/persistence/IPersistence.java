@@ -16,10 +16,9 @@
  */
 package com.ingenious3.csp.persistence;
 
+import com.ingenious3.csp.element.Decorated;
 import com.ingenious3.csp.reader.Reader;
 import com.ingenious3.identifier.UI;
-
-import java.util.Observer;
 
 public interface IPersistence<T> {
 
@@ -29,4 +28,7 @@ public interface IPersistence<T> {
 
     Reader<T> itemsToPersist();
 
+    void remove(T item);
+
+    IPersistence<T> persist(Decorated<T> decorators);
 }

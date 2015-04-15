@@ -16,11 +16,11 @@
  */
 package com.ingenious3.csp.writer;
 
-import com.ingenious3.annotations.Immutable;
 import com.ingenious3.collections.IItems;
 import com.ingenious3.identifier.UI;
 
-@Immutable
+import java.util.Set;
+
 public interface Writer<T> extends IItems<T> {
 
     void add(T item);
@@ -29,7 +29,9 @@ public interface Writer<T> extends IItems<T> {
     void markDeleted(UI ui);
     void revertMarkDeleted(UI ui);
     boolean markedDeleted(UI ui);
-    IItems<T> itemsMarkedDeleted();
-    public T getAdd(UI ui);
-    public T getDelete(UI ui);
+    T getAdd(UI ui);
+    T getDelete(UI ui);
+
+    Set<T> deleteItems();
+    Set<T> addItems();
 }

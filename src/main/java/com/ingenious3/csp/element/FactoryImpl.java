@@ -22,13 +22,11 @@ import com.ingenious3.csp.element.item.ItemAddition;
 import com.ingenious3.csp.element.item.ItemDeletion;
 import com.ingenious3.csp.element.item.ItemRevertAddition;
 import com.ingenious3.csp.element.item.ItemRevertDeletion;
-import com.ingenious3.csp.persistence.IItemPersistence;
-import com.ingenious3.csp.persistence.ItemPersistence;
-import com.ingenious3.csp.persistence.ItemsReader;
+import com.ingenious3.csp.persistence.*;
 import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
-import com.ingenious3.identifier.Identifier;
 import com.ingenious3.identifier.impl.StringID;
+import com.ingenious3.util.IngeniousUtils;
 
 import java.util.Set;
 
@@ -45,20 +43,38 @@ public interface FactoryImpl {
         return ItemsReader.valueOf(new ImmutableItemsBuilder<Item>().addAll(items).build());
     }
 
-    static Identifier itemAddition(Item item) {
+    static ItemDecorator itemAddition(Item item) {
         return new ItemAddition(item);
     }
 
-    static Identifier itemRevertAddition(Item item) {
+    static ItemDecorator itemRevertAddition(Item item) {
         return new ItemRevertAddition(item);
     }
 
-    static ItemDeletion itemDeletion(Item item) {
+    static ItemDecorator itemDeletion(Item item) {
         return new ItemDeletion(item);
     }
 
-    static ItemRevertDeletion itemRevertDeletion(Item item) {
+    static ItemDecorator itemRevertDeletion(Item item) {
         return new ItemRevertDeletion(item);
+    }
+
+    static Decorated<Item> decoratedItems(ItemDecorator decorator) {
+        Set<IDecorator<Item>> set = IngeniousUtils.newConcurrentSet();
+        set.add(decorator);
+        return com.ingenious3.csp.persistence.DecoratedItems.valueOf(set);
+    }
+
+    static ItemsWriter itemsWriter(Set<Item> set) {
+        return ItemsWriter.valueOf(set);
+    }
+
+    static ItemsReader itemsReader(Set<Item> set) {
+        return ItemsReader.valueOf(set);
+    }
+
+    static IObservableItemsWriter observableItemsWriter(ItemsWriter itemsWriter) {
+        return ObservableItemsWriter.valueOf(itemsWriter);
     }
 
     public enum IDTypes {Long, String}

@@ -47,7 +47,7 @@ public class IItemsWriterImplTest {
 
     @Test
     public void testChangeSetNotReflected() {
-        ItemsWriter changeItemsWriter = new ItemsBuilder().set(IngeniousUtils.newConcurrentSet()).buildWriter();
+        ItemsWriter changeItemsWriter = new ItemsBuilder(IngeniousUtils.newConcurrentSet()).buildWriter();
         Item str = FactoryImpl.createStringItem("Original");
         changeItemsWriter.add(str);
     }
@@ -55,7 +55,7 @@ public class IItemsWriterImplTest {
     @Test(expected = IngeniousIllegalArgumentException.class)
     public void testOtherMethod(){
         Set<Item> set = IngeniousUtils.newConcurrentSet();
-        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder().set(set).buildReader(), new ItemsBuilder().set(set).buildObservableWriter(), false);
+        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder(set).buildReader(), new ItemsBuilder(set).buildObservableWriter(), false);
         Item id = FactoryImpl.createStringItem("Whatever");
 
         source.get(id);
@@ -64,7 +64,7 @@ public class IItemsWriterImplTest {
     @Test(expected = IngeniousIllegalArgumentException.class)
     public void testReadWriteReadNonPersistent(){
         Set<Item> set = IngeniousUtils.newConcurrentSet();
-        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder().set(set).buildReader(), new ItemsBuilder().set(set).buildObservableWriter(), false);
+        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder(set).buildReader(), new ItemsBuilder(set).buildObservableWriter(), false);
         Item id = FactoryImpl.createStringItem("Whatever");
 
         source.add(id);
