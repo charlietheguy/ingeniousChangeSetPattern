@@ -43,6 +43,7 @@ public class ObservableItemsWriterTest {
         oWriter.add(FactoryImpl.createStringItem("ID2"));
         oWriter.revertAdd(FactoryImpl.createStringItem("ID2"));
 
+        oWriter.add(FactoryImpl.createStringItem("ID"));
         oWriter.markDeleted(FactoryImpl.createStringItem("ID"));
         oWriter.revertMarkDeleted(FactoryImpl.createStringItem("ID"));
     }

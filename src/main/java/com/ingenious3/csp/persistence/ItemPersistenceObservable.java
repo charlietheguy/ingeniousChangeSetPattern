@@ -80,8 +80,9 @@ public final class ItemPersistenceObservable implements IPersistenceDecorator, O
     }
 
     @Override
-    public void remove(Item item) {
+    public IPersistence<Item> remove(Item item) {
         persistence.remove(item);
+        return this;
     }
 
     private IPersistence<Item> persist(ItemDecorator decorator) {
@@ -92,5 +93,10 @@ public final class ItemPersistenceObservable implements IPersistenceDecorator, O
     @Override
     public IPersistence<Item> persist(Decorated<Item> decorator) {
         return persistence.persist(decorator);
+    }
+
+    @Override
+    public IPersistence<Item> persist() {
+        return persistence.persist();
     }
 }

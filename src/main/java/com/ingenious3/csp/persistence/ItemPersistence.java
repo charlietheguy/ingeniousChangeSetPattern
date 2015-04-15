@@ -21,20 +21,20 @@ import com.ingenious3.builder.ImmutableItemsBuilder;
 import com.ingenious3.csp.element.Decorated;
 import com.ingenious3.csp.element.FactoryImpl;
 import com.ingenious3.csp.element.Item;
+import com.ingenious3.csp.element.item.ItemAddition;
+import com.ingenious3.csp.element.item.ItemDeletion;
+import com.ingenious3.csp.element.item.ItemRevertAddition;
+import com.ingenious3.csp.element.item.ItemRevertDeletion;
 import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
 import com.ingenious3.identifier.UI;
 import com.ingenious3.validation.IValidate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
 @Immutable
 public final class ItemPersistence implements IItemPersistence {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ItemPersistence.class);
 
     private final boolean alwaysPersist;
     private final IItemsReader read;
@@ -72,10 +72,13 @@ public final class ItemPersistence implements IItemPersistence {
     }
 
     @Override
-    public ItemPersistence add(Item item) {
+    public IPersistence<Item> add(Item item) {
         IValidate.validate(item);
 
         this.write.add(item);
+        if(alwaysPersist){
+            return persist();
+        }
         return this;
     }
 
@@ -85,18 +88,44 @@ public final class ItemPersistence implements IItemPersistence {
     }
 
     @Override
-    public void remove(Item item) {
-        LOG.info("To do the removal from read and deletion from write");
+    public IPersistence<Item> remove(Item item) {
+        IValidate.validate(item);
+
+        this.write.markDeleted(item);
+        if(alwaysPersist){
+            return persist();
+        }
+        return this;
     }
 
     @Override
-    public IPersistence<Item> persist(Decorated<Item> decorators) {
+    public IPersistence<Item> persist() {
         Set<Item> items = new ImmutableItemsBuilder<>(this.read.items())
         .addAll(this.write.items())
         .removeAll(this.write.deleteItems())
         .addAll(this.write.addItems()).build();
 
         ItemsReader reader = FactoryImpl.itemsReader(items);
+        return ItemPersistence.valueOf(reader, ItemsWriter.empty(), alwaysPersist);
+    }
+
+    @Override
+    public IPersistence<Item> persist(Decorated<Item> decorator) {
+        final ImmutableItemsBuilder<Item> builder = new ImmutableItemsBuilder<>(read.items());
+
+        decorator.items().parallelStream().forEach(item -> {
+            if(item instanceof ItemAddition){
+                builder.add(item.item());
+            }else if(item instanceof ItemRevertAddition){
+                builder.remove(item.item());
+            }else if(item instanceof ItemDeletion){
+                builder.remove(item.item());
+            }else if(item instanceof ItemRevertDeletion){
+                builder.add(item.item());
+            }
+        });
+
+        ItemsReader reader = FactoryImpl.itemsReader(builder.build());
         return ItemPersistence.valueOf(reader, ItemsWriter.empty(), alwaysPersist);
     }
 

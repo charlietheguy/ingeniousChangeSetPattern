@@ -28,7 +28,9 @@ public interface IPersistence<T> {
 
     Reader<T> itemsToPersist();
 
-    void remove(T item);
+    IPersistence<T> remove(T item);
+
+    IPersistence<T> persist();
 
     IPersistence<T> persist(Decorated<T> decorators);
 }

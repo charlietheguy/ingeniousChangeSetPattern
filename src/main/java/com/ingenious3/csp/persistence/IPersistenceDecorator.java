@@ -17,5 +17,4 @@
 package com.ingenious3.csp.persistence;
 
 public interface IPersistenceDecorator extends IItemPersistence {
-
 }
