@@ -16,6 +16,7 @@
  */
 package com.ingenious3.csp.persistence;
 
+import com.ingenious3.builder.ImmutableItemsBuilder;
 import com.ingenious3.collections.AbstractIItems;
 import com.ingenious3.collections.IItems;
 import com.ingenious3.csp.element.Item;
@@ -25,9 +26,12 @@ import com.ingenious3.identifier.Identifier;
 import com.ingenious3.util.IngeniousUtils;
 import com.ingenious3.validation.IValidate;
 
+import javax.annotation.concurrent.NotThreadSafe;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+@NotThreadSafe
 public final class ItemsWriter extends AbstractIItems<Item> implements IItemsWriter {
 
     private final Map<Identifier, Item> toDelete;
@@ -108,20 +112,16 @@ public final class ItemsWriter extends AbstractIItems<Item> implements IItemsWri
 
     @Override
     public Set<Item> deleteItems() {
-        // TODO: Fix this
-        Set<Item> set = IngeniousUtils.newConcurrentSet();
-        set.addAll(this.toDelete.values());
+        Set<Item> set = new ImmutableItemsBuilder<>(new LinkedHashSet<>(this.toDelete.values())).build();
         return IItems.unmodifiableSet(set);
     }
 
     @Override
     public Set<Item> addItems() {
-        // TODO: Fix this
-        Set<Item> set = IngeniousUtils.newConcurrentSet();
-        set.addAll(this.toAdd.values());
+        Set<Item> set = new ImmutableItemsBuilder<>(new LinkedHashSet<>(this.toAdd.values())).build();
         return IItems.unmodifiableSet(set);
     }
 
 
-    public static ItemsWriter empty(){return ItemsWriter.valueOf(IngeniousUtils.newConcurrentSet());}
+    public static ItemsWriter empty(){return valueOf(IngeniousUtils.newConcurrentSet());}
 }

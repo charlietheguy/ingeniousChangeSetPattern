@@ -19,6 +19,7 @@ package com.ingenious3.csp.persistence;
 import com.ingenious3.annotations.Immutable;
 import com.ingenious3.builder.ImmutableItemsBuilder;
 import com.ingenious3.csp.element.Decorated;
+import com.ingenious3.csp.element.FactoryImpl;
 import com.ingenious3.csp.element.Item;
 import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.csp.writer.IItemsWriter;
@@ -90,11 +91,12 @@ public final class ItemPersistence implements IItemPersistence {
 
     @Override
     public IPersistence<Item> persist(Decorated<Item> decorators) {
-        Set<Item> items = this.read.items();
-        items.addAll(this.write.items());
-        items.removeAll(this.write.deleteItems());
-        items.addAll(this.write.addItems());
-        ItemsReader reader = ItemsReader.valueOf(items);
+        Set<Item> items = new ImmutableItemsBuilder<>(this.read.items())
+        .addAll(this.write.items())
+        .removeAll(this.write.deleteItems())
+        .addAll(this.write.addItems()).build();
+
+        ItemsReader reader = FactoryImpl.itemsReader(items);
         return ItemPersistence.valueOf(reader, ItemsWriter.empty(), alwaysPersist);
     }
 

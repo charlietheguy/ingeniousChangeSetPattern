@@ -16,8 +16,6 @@
  */
 package com.ingenious3.csp.element;
 
-import com.ingenious3.builder.ImmutableItemsBuilder;
-import com.ingenious3.collections.IItems;
 import com.ingenious3.csp.element.item.ItemAddition;
 import com.ingenious3.csp.element.item.ItemDeletion;
 import com.ingenious3.csp.element.item.ItemRevertAddition;
@@ -37,10 +35,6 @@ public interface FactoryImpl {
 
     static IItemPersistence createItemPersistence(IItemsReader itemsReader, IObservableItemsWriter itemsWriter, boolean alwaysPersist) {
         return ItemPersistence.valueOf(itemsReader, itemsWriter, alwaysPersist);
-    }
-
-    static IItems<Item> createImmutableItems(Set<Item> items) {
-        return ItemsReader.valueOf(new ImmutableItemsBuilder<Item>(items).build());
     }
 
     static ItemDecorator itemAddition(Item item) {

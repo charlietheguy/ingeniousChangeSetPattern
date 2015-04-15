@@ -33,6 +33,6 @@ public final class ItemsReader extends AbstractIItems<Item> implements IItemsRea
         return new ItemsReader(set);
     }
 
-    public static ItemsReader empty(){return ItemsReader.valueOf(IngeniousUtils.newConcurrentSet());}
+    public static ItemsReader empty(){return valueOf(IngeniousUtils.newConcurrentSet());}
 
 }

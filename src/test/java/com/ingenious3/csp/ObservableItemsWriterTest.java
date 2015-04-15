@@ -22,8 +22,6 @@ import com.ingenious3.csp.element.IObservableItemsWriter;
 import com.ingenious3.csp.element.Item;
 import com.ingenious3.csp.element.ObservableItemsWriter;
 import com.ingenious3.csp.persistence.ItemPersistenceObservable;
-import com.ingenious3.csp.persistence.ItemsReader;
-import com.ingenious3.csp.persistence.ItemsWriter;
 import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.util.IngeniousUtils;
@@ -37,9 +35,9 @@ public class ObservableItemsWriterTest {
     public void testGeneration(){
         Set<Item> items = Sets.newHashSet();
         items.add(FactoryImpl.createStringItem("ID"));
-        IItemsWriter writer = ItemsWriter.valueOf(items);
+        IItemsWriter writer = FactoryImpl.itemsWriter(items);
         IObservableItemsWriter oWriter = ObservableItemsWriter.valueOf(writer);
-        IItemsReader reader = ItemsReader.valueOf(IngeniousUtils.newConcurrentSet());
+        IItemsReader reader = FactoryImpl.itemsReader(IngeniousUtils.newConcurrentSet());
         ItemPersistenceObservable.valueOf(reader, oWriter, true);
 
         oWriter.add(FactoryImpl.createStringItem("ID2"));
