@@ -80,7 +80,7 @@ public final class ItemPersistence implements IItemPersistence {
 
     @Override
     public IItemsReader itemsToPersist() {
-        return (IItemsReader)(new ImmutableItemsBuilder<Item>().addAll(write.items())).build();
+        return (IItemsReader)(new ImmutableItemsBuilder<>(write.items())).build();
     }
 
     @Override

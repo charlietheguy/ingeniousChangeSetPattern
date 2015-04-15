@@ -23,6 +23,7 @@ import com.ingenious3.identifier.Identifier;
 import com.ingenious3.identifier.UI;
 import com.ingenious3.validation.IValidate;
 
+@Immutable
 public abstract class AbstractItemOperation extends UI implements ItemDecorator, Identifier {
     private final Item item;
     private final ItemDecoratorType type;

@@ -33,7 +33,6 @@ public class ItemsBuilder {
 
     public ItemsBuilder (Set<Item> set){
         IValidate.validate(set);
-        set.parallelStream().forEach(item -> IValidate.validate(item));
         this.set = IItems.unmodifiableSet(set);
     }
 

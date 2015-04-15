@@ -17,20 +17,20 @@
 package com.ingenious3.csp.writer;
 
 import com.ingenious3.collections.IItems;
-import com.ingenious3.identifier.UI;
+import com.ingenious3.identifier.Identifier;
 
 import java.util.Set;
 
 public interface Writer<T> extends IItems<T> {
 
     void add(T item);
-    void revertAdd(UI ui);
+    void revertAdd(Identifier ui);
     void change(T original, T change);
-    void markDeleted(UI ui);
-    void revertMarkDeleted(UI ui);
-    boolean markedDeleted(UI ui);
-    T getAdd(UI ui);
-    T getDelete(UI ui);
+    void markDeleted(Identifier ui);
+    void revertMarkDeleted(Identifier ui);
+    boolean markedDeleted(Identifier ui);
+    T getAdd(Identifier ui);
+    T getDelete(Identifier ui);
 
     Set<T> deleteItems();
     Set<T> addItems();

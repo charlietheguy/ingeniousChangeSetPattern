@@ -16,9 +16,11 @@
  */
 package com.ingenious3.csp.element.item;
 
+import com.ingenious3.annotations.Immutable;
 import com.ingenious3.csp.element.Item;
 import com.ingenious3.identifier.Identifier;
 
+@Immutable
 public final class ItemRevertAddition extends AbstractItemOperation implements Identifier {
     public ItemRevertAddition(Item item) {
         super(item, ItemDecoratorType.REVERT_ADD);

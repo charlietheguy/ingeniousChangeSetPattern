@@ -21,7 +21,7 @@ import com.ingenious3.collections.IItems;
 import com.ingenious3.csp.element.Item;
 import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
-import com.ingenious3.identifier.UI;
+import com.ingenious3.identifier.Identifier;
 import com.ingenious3.util.IngeniousUtils;
 import com.ingenious3.validation.IValidate;
 
@@ -30,8 +30,8 @@ import java.util.Set;
 
 public final class ItemsWriter extends AbstractIItems<Item> implements IItemsWriter {
 
-    private final Map<UI, Item> toDelete;
-    private final Map<UI, Item> toAdd;
+    private final Map<Identifier, Item> toDelete;
+    private final Map<Identifier, Item> toAdd;
 
 
     private ItemsWriter(Set<Item> set) {
@@ -59,14 +59,14 @@ public final class ItemsWriter extends AbstractIItems<Item> implements IItemsWri
     }
 
     @Override
-    public void markDeleted(UI ui) {
+    public void markDeleted(Identifier ui) {
         IValidate.validate(ui);
 
         toDelete.put(ui, get(ui));
     }
 
     @Override
-    public void revertMarkDeleted(UI ui) {
+    public void revertMarkDeleted(Identifier ui) {
         IValidate.validate(ui);
 
         if(IItems.containsValue(get(ui), toDelete)){
@@ -78,28 +78,28 @@ public final class ItemsWriter extends AbstractIItems<Item> implements IItemsWri
     }
 
     @Override
-    public boolean markedDeleted(UI ui) {
+    public boolean markedDeleted(Identifier ui) {
         IValidate.validate(ui);
 
         return toDelete.containsKey(ui);
     }
 
 
-    public void revertAdd(UI original) {
+    public void revertAdd(Identifier original) {
         IValidate.validate(original);
         IValidate.validate(this.toAdd.containsKey(original));
 
         this.toAdd.remove(original);
     }
 
-    public Item getAdd(UI ui) {
+    public Item getAdd(Identifier ui) {
         IValidate.validate(ui);
         IValidate.validate(this.toAdd.containsKey(ui));
 
         return this.toAdd.get(ui);
     }
 
-    public Item getDelete(UI ui) {
+    public Item getDelete(Identifier ui) {
         IValidate.validate(ui);
         IValidate.validate(this.toDelete.containsKey(ui));
 

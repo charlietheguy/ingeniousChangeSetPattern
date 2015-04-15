@@ -16,8 +16,10 @@
  */
 package com.ingenious3.csp.element;
 
+import com.ingenious3.annotations.Immutable;
 import com.ingenious3.csp.persistence.IDecorator;
 
+@Immutable
 public interface ItemDecorator extends IDecorator<Item> {
     Item item();
 }

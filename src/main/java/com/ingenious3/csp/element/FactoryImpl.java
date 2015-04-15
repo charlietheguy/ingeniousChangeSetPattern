@@ -40,7 +40,7 @@ public interface FactoryImpl {
     }
 
     static IItems<Item> createImmutableItems(Set<Item> items) {
-        return ItemsReader.valueOf(new ImmutableItemsBuilder<Item>().addAll(items).build());
+        return ItemsReader.valueOf(new ImmutableItemsBuilder<Item>(items).build());
     }
 
     static ItemDecorator itemAddition(Item item) {

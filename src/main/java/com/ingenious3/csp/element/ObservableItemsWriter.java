@@ -17,7 +17,7 @@
 package com.ingenious3.csp.element;
 
 import com.ingenious3.csp.writer.IItemsWriter;
-import com.ingenious3.identifier.UI;
+import com.ingenious3.identifier.Identifier;
 import com.ingenious3.validation.IValidate;
 
 import java.util.Observable;
@@ -45,7 +45,7 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
     }
 
     @Override
-    public void revertAdd(UI ui) {
+    public void revertAdd(Identifier ui) {
         IValidate.validate(ui);
         IValidate.validate(getAdd(ui));
 
@@ -61,7 +61,7 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
     }
 
     @Override
-    public void markDeleted(UI ui) {
+    public void markDeleted(Identifier ui) {
         IValidate.validate(ui);
         IValidate.validate(get(ui));
 
@@ -71,7 +71,7 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
     }
 
     @Override
-    public void revertMarkDeleted(UI ui) {
+    public void revertMarkDeleted(Identifier ui) {
         IValidate.validate(ui);
         IValidate.validate(getDelete(ui));
 
@@ -82,12 +82,12 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
     }
 
     @Override
-    public boolean markedDeleted(UI ui) {
+    public boolean markedDeleted(Identifier ui) {
         return itemsWriter.markedDeleted(ui);
     }
 
     @Override
-    public boolean containsKey(UI ui) {
+    public boolean containsKey(Identifier ui) {
         return itemsWriter.containsKey(ui);
     }
 
@@ -97,17 +97,17 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
     }
 
     @Override
-    public Item get(UI ui) {
+    public Item get(Identifier ui) {
         return itemsWriter.get(ui);
     }
 
     @Override
-    public Item getAdd(UI ui) {
+    public Item getAdd(Identifier ui) {
         return itemsWriter.getAdd(ui);
     }
 
     @Override
-    public Item getDelete(UI ui) {
+    public Item getDelete(Identifier ui) {
         return itemsWriter.getDelete(ui);
     }
 
