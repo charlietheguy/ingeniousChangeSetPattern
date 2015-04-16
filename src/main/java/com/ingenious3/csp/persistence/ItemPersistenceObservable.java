@@ -39,11 +39,11 @@ public final class ItemPersistenceObservable implements IPersistenceDecorator, O
     }
 
 
-    public static ItemPersistenceObservable valueOf(IItemsReader itemsReader, IObservableItemsWriter itemsWriter, boolean alwaysPersist) {
+    public static ItemPersistenceObservable valueOf(IItemsReader itemsReader, IObservableItemsWriter itemsWriter, PERSIST_STRATEGY persistStrategy) {
         IValidate.validate(itemsReader);
         IValidate.validate(itemsWriter);
 
-        ItemPersistenceObservable persistence = new ItemPersistenceObservable(FactoryImpl.createItemPersistence(itemsReader, itemsWriter, alwaysPersist));
+        ItemPersistenceObservable persistence = new ItemPersistenceObservable(FactoryImpl.createItemPersistence(itemsReader, itemsWriter, persistStrategy));
         itemsWriter.addObserver(persistence);
         return persistence;
     }
@@ -59,7 +59,9 @@ public final class ItemPersistenceObservable implements IPersistenceDecorator, O
 
         ItemDecorator itemDecorator = (ItemDecorator)arg;
 
-        this.persistence = persist(itemDecorator);
+        if(persistence.alwaysPersist()) {
+            this.persistence = persist(itemDecorator);
+        }
         LOG.info("================= Tried to work it out.{}", itemDecorator);
     }
 
@@ -93,6 +95,11 @@ public final class ItemPersistenceObservable implements IPersistenceDecorator, O
     @Override
     public IPersistence<Item> persist(Decorated<Item> decorator) {
         return persistence.persist(decorator);
+    }
+
+    @Override
+    public boolean alwaysPersist() {
+        return persistence.alwaysPersist();
     }
 
     @Override

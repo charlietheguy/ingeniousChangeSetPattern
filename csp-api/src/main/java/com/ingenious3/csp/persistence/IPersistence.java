@@ -22,6 +22,8 @@ import com.ingenious3.identifier.UI;
 
 public interface IPersistence<T> {
 
+    public enum PERSIST_STRATEGY {ALWAYS_PERSIST, PERSIST_ON_DEMAND}
+
     T get(UI id);
 
     IPersistence<T> add(T item);
@@ -33,4 +35,6 @@ public interface IPersistence<T> {
     IPersistence<T> persist();
 
     IPersistence<T> persist(Decorated<T> decorators);
+
+    boolean alwaysPersist();
 }

@@ -30,27 +30,31 @@ import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
 import com.ingenious3.identifier.UI;
 import com.ingenious3.validation.IValidate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
 @Immutable
 public final class ItemPersistence implements IItemPersistence {
 
-    private final boolean alwaysPersist;
+    private final static Logger LOG = LoggerFactory.getLogger(ItemPersistence.class);
+
+    private final PERSIST_STRATEGY persistStrategy;
     private final IItemsReader read;
     private final IItemsWriter write;
 
-    private ItemPersistence(IItemsReader itemsReader, IItemsWriter itemsWriter, boolean alwaysPersist){
+    private ItemPersistence(IItemsReader itemsReader, IItemsWriter itemsWriter, PERSIST_STRATEGY persistStrategy){
         this.read = itemsReader;
         this.write = itemsWriter;
-        this.alwaysPersist = alwaysPersist;
+        this.persistStrategy = persistStrategy;
     }
 
-    public static ItemPersistence valueOf(IItemsReader itemsReader, IItemsWriter itemsWriter, boolean alwaysPersist) {
+    public static ItemPersistence valueOf(IItemsReader itemsReader, IItemsWriter itemsWriter, PERSIST_STRATEGY persistStrategy) {
         IValidate.validate(itemsReader);
         IValidate.validate(itemsWriter);
 
-        ItemPersistence persistence = new ItemPersistence(itemsReader, itemsWriter, alwaysPersist);
+        ItemPersistence persistence = new ItemPersistence(itemsReader, itemsWriter, persistStrategy);
         return persistence;
     }
 
@@ -58,10 +62,10 @@ public final class ItemPersistence implements IItemPersistence {
     public Item get(UI ui) {
         IValidate.validate(ui);
 
-        if(alwaysPersist && write.containsKey(ui)){
+        if(alwaysPersist() && write.containsKey(ui)){
             return write.get(ui);
         }
-        if(alwaysPersist && write.markedDeleted(ui)){
+        if(alwaysPersist() && write.markedDeleted(ui)){
             throw IngeniousExceptionsFactory.illegalArgument("Argument with UI {} was marked as deleted.", ui);
         }
         if(read.containsKey(ui)){
@@ -76,7 +80,7 @@ public final class ItemPersistence implements IItemPersistence {
         IValidate.validate(item);
 
         this.write.add(item);
-        if(alwaysPersist){
+        if(alwaysPersist()){
             return persist();
         }
         return this;
@@ -84,7 +88,7 @@ public final class ItemPersistence implements IItemPersistence {
 
     @Override
     public IItemsReader itemsToPersist() {
-        return (IItemsReader)(new ImmutableItemsBuilder<>(write.items())).build();
+        return FactoryImpl.itemsReader(write.items());
     }
 
     @Override
@@ -92,7 +96,7 @@ public final class ItemPersistence implements IItemPersistence {
         IValidate.validate(item);
 
         this.write.markDeleted(item);
-        if(alwaysPersist){
+        if(alwaysPersist()){
             return persist();
         }
         return this;
@@ -100,13 +104,15 @@ public final class ItemPersistence implements IItemPersistence {
 
     @Override
     public IPersistence<Item> persist() {
+        LOG.info("You are persisting items, therefore this IMMUTABLE persistence instance stays as a fingerprint only. Use proper assignment of the new persistence.");
+
         Set<Item> items = new ImmutableItemsBuilder<>(this.read.items())
         .addAll(this.write.items())
         .removeAll(this.write.deleteItems())
         .addAll(this.write.addItems()).build();
 
         ItemsReader reader = FactoryImpl.itemsReader(items);
-        return ItemPersistence.valueOf(reader, ItemsWriter.empty(), alwaysPersist);
+        return ItemPersistence.valueOf(reader, ItemsWriter.empty(), persistStrategy);
     }
 
     @Override
@@ -126,7 +132,12 @@ public final class ItemPersistence implements IItemPersistence {
         });
 
         ItemsReader reader = FactoryImpl.itemsReader(builder.build());
-        return ItemPersistence.valueOf(reader, ItemsWriter.empty(), alwaysPersist);
+        return ItemPersistence.valueOf(reader, ItemsWriter.empty(), persistStrategy);
+    }
+
+    @Override
+    public boolean alwaysPersist() {
+        return PERSIST_STRATEGY.ALWAYS_PERSIST.equals(persistStrategy);
     }
 
 

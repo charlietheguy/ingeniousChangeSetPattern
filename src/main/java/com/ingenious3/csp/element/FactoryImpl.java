@@ -33,8 +33,8 @@ public interface FactoryImpl {
         return Item.valueOf(FactoryImpl.uiString(id));
     }
 
-    static IItemPersistence createItemPersistence(IItemsReader itemsReader, IObservableItemsWriter itemsWriter, boolean alwaysPersist) {
-        return ItemPersistence.valueOf(itemsReader, itemsWriter, alwaysPersist);
+    static IItemPersistence createItemPersistence(IItemsReader itemsReader, IObservableItemsWriter itemsWriter, IPersistence.PERSIST_STRATEGY persistStrategy) {
+        return ItemPersistence.valueOf(itemsReader, itemsWriter, persistStrategy);
     }
 
     static ItemDecorator itemAddition(Item item) {

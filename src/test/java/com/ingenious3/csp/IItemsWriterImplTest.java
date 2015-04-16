@@ -27,6 +27,8 @@ import org.junit.Test;
 
 import java.util.Set;
 
+import static com.ingenious3.csp.persistence.IPersistence.PERSIST_STRATEGY;
+
 public class IItemsWriterImplTest {
 
 //    @Test
@@ -55,7 +57,7 @@ public class IItemsWriterImplTest {
     @Test(expected = IngeniousIllegalArgumentException.class)
     public void testOtherMethod(){
         Set<Item> set = IngeniousUtils.newConcurrentSet();
-        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder(set).buildReader(), new ItemsBuilder(set).buildObservableWriter(), false);
+        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder(set).buildReader(), new ItemsBuilder(set).buildObservableWriter(), PERSIST_STRATEGY.PERSIST_ON_DEMAND);
         Item id = FactoryImpl.createStringItem("Whatever");
 
         source.get(id);
@@ -64,7 +66,7 @@ public class IItemsWriterImplTest {
     @Test(expected = IngeniousIllegalArgumentException.class)
     public void testReadWriteReadNonPersistent(){
         Set<Item> set = IngeniousUtils.newConcurrentSet();
-        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder(set).buildReader(), new ItemsBuilder(set).buildObservableWriter(), false);
+        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder(set).buildReader(), new ItemsBuilder(set).buildObservableWriter(), PERSIST_STRATEGY.PERSIST_ON_DEMAND);
         Item id = FactoryImpl.createStringItem("Whatever");
 
         source.add(id);
