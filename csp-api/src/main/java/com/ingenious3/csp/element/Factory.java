@@ -16,7 +16,5 @@
  */
 package com.ingenious3.csp.element;
 
-
 public interface Factory {
-
 }

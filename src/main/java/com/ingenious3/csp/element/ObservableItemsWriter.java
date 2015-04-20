@@ -16,6 +16,7 @@
  */
 package com.ingenious3.csp.element;
 
+import com.ingenious3.annotations.Mutable;
 import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.identifier.Identifier;
 import com.ingenious3.validation.IValidate;
@@ -23,6 +24,7 @@ import com.ingenious3.validation.IValidate;
 import java.util.Observable;
 import java.util.Set;
 
+@Mutable
 public class ObservableItemsWriter extends Observable implements IObservableItemsWriter {
 
     private IItemsWriter itemsWriter;
@@ -54,11 +56,6 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
         itemsWriter.revertAdd(ui);
     }
 
-
-    @Override
-    public void change(Item original, Item change) {
-        itemsWriter.change(original, change);
-    }
 
     @Override
     public void markDeleted(Identifier ui) {

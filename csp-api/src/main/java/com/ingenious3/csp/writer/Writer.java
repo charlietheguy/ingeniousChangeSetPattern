@@ -16,16 +16,17 @@
  */
 package com.ingenious3.csp.writer;
 
+import com.ingenious3.annotations.Mutable;
 import com.ingenious3.collections.IItems;
 import com.ingenious3.identifier.Identifier;
 
 import java.util.Set;
 
+@Mutable
 public interface Writer<T> extends IItems<T> {
 
     void add(T item);
     void revertAdd(Identifier ui);
-    void change(T original, T change);
     void markDeleted(Identifier ui);
     void revertMarkDeleted(Identifier ui);
     boolean markedDeleted(Identifier ui);

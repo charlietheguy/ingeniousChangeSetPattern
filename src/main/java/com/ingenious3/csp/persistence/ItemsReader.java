@@ -16,6 +16,7 @@
  */
 package com.ingenious3.csp.persistence;
 
+import com.ingenious3.annotations.Immutable;
 import com.ingenious3.collections.AbstractIItems;
 import com.ingenious3.csp.element.Item;
 import com.ingenious3.csp.reader.IItemsReader;
@@ -23,6 +24,7 @@ import com.ingenious3.util.IngeniousUtils;
 
 import java.util.Set;
 
+@Immutable
 public final class ItemsReader extends AbstractIItems<Item> implements IItemsReader {
 
     private ItemsReader(Set<Item> set) {

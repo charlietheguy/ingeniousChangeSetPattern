@@ -23,6 +23,7 @@ import com.ingenious3.csp.persistence.IItemPersistence;
 import com.ingenious3.csp.persistence.ItemsWriter;
 import com.ingenious3.exceptions.IngeniousIllegalArgumentException;
 import com.ingenious3.util.IngeniousUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Set;
@@ -30,22 +31,6 @@ import java.util.Set;
 import static com.ingenious3.csp.persistence.IPersistence.PERSIST_STRATEGY;
 
 public class IItemsWriterImplTest {
-
-//    @Test
-//    public void testChangeSet(){
-//        ItemsWriter changeItemsWriter = new ItemsBuilder().set(IngeniousUtils.newConcurrentSet()).buildWriter();
-//
-//        Item str = FactoryImpl.createStringItem("Original");
-//        changeItemsWriter.add(str);
-//
-//        Assert.assertEquals("Original", str.toString());
-//
-//        changeItemsWriter.change(str, FactoryImpl.createStringItem("Modified."));
-//
-//        Set<Item> items = changeItemsWriter.items();
-//        Assert.assertEquals("Original item was changed.",1, items.size());
-//        Assert.assertEquals(FactoryImpl.createStringItem("Modified."),items.iterator().next());
-//    }
 
     @Test
     public void testChangeSetNotReflected() {
@@ -70,17 +55,16 @@ public class IItemsWriterImplTest {
         Item id = FactoryImpl.createStringItem("Whatever");
 
         source.add(id);
-        Item i = source.get(id);
+        source.get(id);
     }
 
-//    @Test
-//    public void testReadWriteReadPersistent(){
-//        Set<Item> set = IngeniousUtils.newConcurrentSet();
-//        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder().set(set).buildReader(), new ItemsBuilder().set(set).buildObservableWriter(), true);
-//        Item id = FactoryImpl.createStringItem("Whatever");
-//
-//        source.add(id);
-//        Item i = source.get(id);
-//        Assert.assertEquals(id, i);
-//    }
+    @Test
+    public void testReadWriteReadPersistent(){
+        Set<Item> set = IngeniousUtils.newConcurrentSet();
+        IItemPersistence source = FactoryImpl.createItemPersistence(new ItemsBuilder(set).buildReader(), new ItemsBuilder(set).buildObservableWriter(), PERSIST_STRATEGY.ALWAYS_PERSIST);
+        Item id = FactoryImpl.createStringItem("Whatever");
+
+        Item i = source.add(id).get(id);
+        Assert.assertEquals(id, i);
+    }
 }

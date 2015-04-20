@@ -16,6 +16,7 @@
  */
 package com.ingenious3.csp.persistence;
 
+import com.ingenious3.annotations.Immutable;
 import com.ingenious3.collections.AbstractIItems;
 import com.ingenious3.csp.element.Decorated;
 import com.ingenious3.csp.element.Item;
@@ -23,6 +24,7 @@ import com.ingenious3.util.IngeniousUtils;
 
 import java.util.Set;
 
+@Immutable
 public final class DecoratedItems extends AbstractIItems<IDecorator<Item>> implements Decorated<Item> {
 
     private DecoratedItems(Set<IDecorator<Item>> set) {

@@ -16,6 +16,7 @@
  */
 package com.ingenious3.csp.persistence;
 
+import com.ingenious3.annotations.Mutable;
 import com.ingenious3.csp.element.*;
 import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.csp.reader.Reader;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Observable;
 import java.util.Observer;
 
+@Mutable
 public final class ItemPersistenceObservable implements IPersistenceDecorator, Observer {
 
     private static final Logger LOG = LoggerFactory.getLogger(ItemPersistenceObservable.class);

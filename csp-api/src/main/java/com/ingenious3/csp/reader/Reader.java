@@ -16,9 +16,7 @@
  */
 package com.ingenious3.csp.reader;
 
-import com.ingenious3.annotations.Immutable;
 import com.ingenious3.collections.IItems;
 
-@Immutable
 public interface Reader<T> extends IItems<T> {
 }

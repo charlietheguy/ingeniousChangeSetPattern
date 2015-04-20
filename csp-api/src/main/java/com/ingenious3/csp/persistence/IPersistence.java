@@ -16,10 +16,12 @@
  */
 package com.ingenious3.csp.persistence;
 
+import com.ingenious3.annotations.Mutable;
 import com.ingenious3.csp.element.Decorated;
 import com.ingenious3.csp.reader.Reader;
 import com.ingenious3.identifier.UI;
 
+@Mutable
 public interface IPersistence<T> {
 
     public enum PERSIST_STRATEGY {ALWAYS_PERSIST, PERSIST_ON_DEMAND}

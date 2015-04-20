@@ -16,7 +16,9 @@
  */
 package com.ingenious3.csp.persistence;
 
+import com.ingenious3.annotations.Mutable;
 import com.ingenious3.csp.element.Item;
 
+@Mutable
 public interface IItemPersistence extends IPersistence<Item> {
 }

@@ -16,7 +16,7 @@
  */
 package com.ingenious3.csp.persistence;
 
-import com.ingenious3.annotations.Immutable;
+import com.ingenious3.annotations.Mutable;
 import com.ingenious3.builder.ImmutableItemsBuilder;
 import com.ingenious3.csp.element.Decorated;
 import com.ingenious3.csp.element.FactoryImpl;
@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
-@Immutable
+@Mutable
 public final class ItemPersistence implements IItemPersistence {
 
     private final static Logger LOG = LoggerFactory.getLogger(ItemPersistence.class);

@@ -17,6 +17,7 @@
 
 package com.ingenious3.csp.builder;
 
+import com.ingenious3.annotations.Mutable;
 import com.ingenious3.collections.IItems;
 import com.ingenious3.csp.element.FactoryImpl;
 import com.ingenious3.csp.element.IObservableItemsWriter;
@@ -27,6 +28,7 @@ import com.ingenious3.validation.IValidate;
 
 import java.util.Set;
 
+@Mutable
 public class ItemsBuilder {
 
     private Set<Item> set;
