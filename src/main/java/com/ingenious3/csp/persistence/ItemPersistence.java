@@ -27,7 +27,6 @@ import com.ingenious3.csp.element.item.ItemRevertAddition;
 import com.ingenious3.csp.element.item.ItemRevertDeletion;
 import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.csp.writer.IItemsWriter;
-import com.ingenious3.exceptions.IngeniousExceptionsFactory;
 import com.ingenious3.identifier.UI;
 import com.ingenious3.validation.IValidate;
 import org.slf4j.Logger;
@@ -53,6 +52,7 @@ public final class ItemPersistence implements IItemPersistence {
     public static ItemPersistence valueOf(IItemsReader itemsReader, IItemsWriter itemsWriter, PERSIST_STRATEGY persistStrategy) {
         IValidate.validate(itemsReader);
         IValidate.validate(itemsWriter);
+        IValidate.validate(persistStrategy);
 
         ItemPersistence persistence = new ItemPersistence(itemsReader, itemsWriter, persistStrategy);
         return persistence;
@@ -62,17 +62,7 @@ public final class ItemPersistence implements IItemPersistence {
     public Item get(UI ui) {
         IValidate.validate(ui);
 
-        if(alwaysPersist() && write.containsKey(ui)){
-            return write.get(ui);
-        }
-        if(alwaysPersist() && write.markedDeleted(ui)){
-            throw IngeniousExceptionsFactory.illegalArgument("Argument with UI {} was marked as deleted.", ui);
-        }
-        if(read.containsKey(ui)){
-            return read.get(ui);
-        }
-
-        throw IngeniousExceptionsFactory.illegalArgument("Argument with UI {} not found.", ui);
+        return read.get(ui);
     }
 
     @Override

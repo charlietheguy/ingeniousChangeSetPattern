@@ -22,6 +22,7 @@ import com.ingenious3.csp.element.item.ItemRevertAddition;
 import com.ingenious3.csp.element.item.ItemRevertDeletion;
 import com.ingenious3.csp.persistence.*;
 import com.ingenious3.csp.reader.IItemsReader;
+import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
 import com.ingenious3.identifier.impl.StringID;
 import com.ingenious3.util.IngeniousUtils;
@@ -33,7 +34,7 @@ public interface FactoryImpl {
         return Item.valueOf(FactoryImpl.uiString(id));
     }
 
-    static IItemPersistence createItemPersistence(IItemsReader itemsReader, IObservableItemsWriter itemsWriter, IPersistence.PERSIST_STRATEGY persistStrategy) {
+    static IItemPersistence createItemPersistence(IItemsReader itemsReader, IItemsWriter itemsWriter, IPersistence.PERSIST_STRATEGY persistStrategy) {
         return ItemPersistence.valueOf(itemsReader, itemsWriter, persistStrategy);
     }
 
