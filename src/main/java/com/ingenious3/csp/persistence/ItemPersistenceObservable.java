@@ -22,12 +22,13 @@ import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.csp.reader.Reader;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
 import com.ingenious3.identifier.UI;
-import com.ingenious3.validation.IValidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import static com.ingenious3.validation.IValidate.validate;
 
 @Mutable
 public final class ItemPersistenceObservable implements IPersistenceDecorator, Observer {
@@ -42,8 +43,8 @@ public final class ItemPersistenceObservable implements IPersistenceDecorator, O
 
 
     public static ItemPersistenceObservable valueOf(IItemsReader itemsReader, IObservableItemsWriter itemsWriter, PERSIST_STRATEGY persistStrategy) {
-        IValidate.validate(itemsReader);
-        IValidate.validate(itemsWriter);
+        validate(itemsReader);
+        validate(itemsWriter);
 
         ItemPersistenceObservable persistence = new ItemPersistenceObservable(FactoryImpl.createItemPersistence(itemsReader, itemsWriter, persistStrategy));
         itemsWriter.addObserver(persistence);
@@ -53,7 +54,7 @@ public final class ItemPersistenceObservable implements IPersistenceDecorator, O
 
     @Override
     public void update(Observable o, Object arg) {
-        IValidate.validate(arg);
+        validate(arg);
 
         if(!(arg instanceof ItemDecorator)){
             throw IngeniousExceptionsFactory.illegalArgument("ItemDecorator type expected, not {}.", arg.getClass());

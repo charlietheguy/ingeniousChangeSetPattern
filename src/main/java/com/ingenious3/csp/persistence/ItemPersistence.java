@@ -27,12 +27,14 @@ import com.ingenious3.csp.element.item.ItemRevertAddition;
 import com.ingenious3.csp.element.item.ItemRevertDeletion;
 import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.csp.writer.IItemsWriter;
+import com.ingenious3.exceptions.IngeniousExceptionsFactory;
 import com.ingenious3.identifier.UI;
-import com.ingenious3.validation.IValidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Set;
+
+import static com.ingenious3.validation.IValidate.validate;
 
 @Mutable
 public final class ItemPersistence implements IItemPersistence {
@@ -50,9 +52,9 @@ public final class ItemPersistence implements IItemPersistence {
     }
 
     public static ItemPersistence valueOf(IItemsReader itemsReader, IItemsWriter itemsWriter, PERSIST_STRATEGY persistStrategy) {
-        IValidate.validate(itemsReader);
-        IValidate.validate(itemsWriter);
-        IValidate.validate(persistStrategy);
+        validate(itemsReader);
+        validate(itemsWriter);
+        validate(persistStrategy);
 
         ItemPersistence persistence = new ItemPersistence(itemsReader, itemsWriter, persistStrategy);
         return persistence;
@@ -60,14 +62,16 @@ public final class ItemPersistence implements IItemPersistence {
 
     @Override
     public Item get(UI ui) {
-        IValidate.validate(ui);
+        validate(ui);
+        validate(read.containsKey(ui));
 
         return read.get(ui);
     }
 
     @Override
     public IPersistence<Item> add(Item item) {
-        IValidate.validate(item);
+        validate(item);
+        validate(!read.containsKey(item), IngeniousExceptionsFactory.illegalArgument("Item {} already exists in reader.", item));
 
         this.write.add(item);
         if(alwaysPersist()){
@@ -83,7 +87,8 @@ public final class ItemPersistence implements IItemPersistence {
 
     @Override
     public IPersistence<Item> remove(Item item) {
-        IValidate.validate(item);
+        validate(item);
+        validate(!read.containsKey(item), IngeniousExceptionsFactory.illegalArgument("Item {} doesn't exist in reader.", item));
 
         this.write.markDeleted(item);
         if(alwaysPersist()){
@@ -107,6 +112,10 @@ public final class ItemPersistence implements IItemPersistence {
 
     @Override
     public IPersistence<Item> persist(Decorated<Item> decorator) {
+        validate(decorator);
+        validate(decorator.items());
+        validate(read.items());
+
         final ImmutableItemsBuilder<Item> builder = new ImmutableItemsBuilder<>(read.items());
 
         decorator.items().parallelStream().forEach(item -> {

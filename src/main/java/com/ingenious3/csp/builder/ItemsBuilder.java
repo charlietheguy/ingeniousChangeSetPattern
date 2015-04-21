@@ -24,9 +24,10 @@ import com.ingenious3.csp.element.IObservableItemsWriter;
 import com.ingenious3.csp.element.Item;
 import com.ingenious3.csp.persistence.ItemsReader;
 import com.ingenious3.csp.persistence.ItemsWriter;
-import com.ingenious3.validation.IValidate;
 
 import java.util.Set;
+
+import static com.ingenious3.validation.IValidate.validate;
 
 @Mutable
 public class ItemsBuilder {
@@ -34,7 +35,7 @@ public class ItemsBuilder {
     private Set<Item> set;
 
     public ItemsBuilder (Set<Item> set){
-        IValidate.validate(set);
+        validate(set);
         this.set = IItems.unmodifiableSet(set);
     }
 

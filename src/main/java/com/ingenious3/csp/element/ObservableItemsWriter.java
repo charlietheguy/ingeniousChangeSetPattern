@@ -19,10 +19,11 @@ package com.ingenious3.csp.element;
 import com.ingenious3.annotations.Mutable;
 import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.identifier.Identifier;
-import com.ingenious3.validation.IValidate;
 
 import java.util.Observable;
 import java.util.Set;
+
+import static com.ingenious3.validation.IValidate.validate;
 
 @Mutable
 public class ObservableItemsWriter extends Observable implements IObservableItemsWriter {
@@ -39,7 +40,7 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
 
     @Override
     public void add(Item item) {
-        IValidate.validate(item);
+        validate(item);
 
         itemsWriter.add(item);
         this.setChanged();
@@ -48,8 +49,8 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
 
     @Override
     public void revertAdd(Identifier ui) {
-        IValidate.validate(ui);
-        IValidate.validate(getAdd(ui));
+        validate(ui);
+        validate(getAdd(ui));
 
         this.setChanged();
         notifyObservers(FactoryImpl.itemRevertAddition(getAdd(ui)));
@@ -59,8 +60,8 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
 
     @Override
     public void markDeleted(Identifier ui) {
-        IValidate.validate(ui);
-        IValidate.validate(get(ui));
+        validate(ui);
+        validate(get(ui));
 
         this.setChanged();
         notifyObservers(FactoryImpl.itemDeletion(get(ui)));
@@ -69,8 +70,8 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
 
     @Override
     public void revertMarkDeleted(Identifier ui) {
-        IValidate.validate(ui);
-        IValidate.validate(getDelete(ui));
+        validate(ui);
+        validate(getDelete(ui));
 
         this.setChanged();
         notifyObservers(FactoryImpl.itemRevertDeletion(getDelete(ui)));

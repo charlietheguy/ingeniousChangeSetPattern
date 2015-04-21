@@ -26,12 +26,13 @@ import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
 import com.ingenious3.identifier.Identifier;
 import com.ingenious3.util.IngeniousUtils;
-import com.ingenious3.validation.IValidate;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+
+import static com.ingenious3.validation.IValidate.validate;
 
 @NotThreadSafe
 @Mutable
@@ -53,54 +54,54 @@ public final class ItemsWriter extends AbstractIItems<Item> implements IItemsWri
 
     @Review("Review, whether the addition of already existing argument should be treated strictly. Behaving strictly now.")
     public void add(Item item) {
-        IValidate.validate(item);
-        IValidate.validate(!toAdd.containsKey(item), IngeniousExceptionsFactory.illegalArgument("You are attempting to add an already existing argument {}.", item));
+        validate(item);
+        validate(!toAdd.containsKey(item), IngeniousExceptionsFactory.illegalArgument("You are attempting to add an already existing argument {}.", item));
 
         this.toAdd.put(item, item);
     }
 
     @Override
     public void markDeleted(Identifier ui) {
-        IValidate.validate(ui);
-        IValidate.validate(containsKey(ui), IngeniousExceptionsFactory.illegalArgument("You are attempting to delete a not existing argument {}.", ui));
-        IValidate.validate(!toDelete.containsKey(ui), IngeniousExceptionsFactory.illegalArgument("You are attempting to delete already deleted argument {}.", ui));
+        validate(ui);
+        validate(containsKey(ui), IngeniousExceptionsFactory.illegalArgument("You are attempting to delete a not existing argument {}.", ui));
+        validate(!toDelete.containsKey(ui), IngeniousExceptionsFactory.illegalArgument("You are attempting to delete already deleted argument {}.", ui));
 
         toDelete.put(ui, get(ui));
     }
 
     @Override
     public void revertMarkDeleted(Identifier ui) {
-        IValidate.validate(ui);
-        IValidate.validate(IItems.containsValue(get(ui), toDelete), IngeniousExceptionsFactory.illegalArgument("Key ui {} does not exist in the map with items marked as deleted.", ui));
+        validate(ui);
+        validate(IItems.containsValue(get(ui), toDelete), IngeniousExceptionsFactory.illegalArgument("Key ui {} does not exist in the map with items marked as deleted.", ui));
 
         toDelete.remove(ui);
     }
 
     @Override
     public boolean markedDeleted(Identifier ui) {
-        IValidate.validate(ui);
+        validate(ui);
 
         return toDelete.containsKey(ui);
     }
 
 
     public void revertAdd(Identifier ui) {
-        IValidate.validate(ui);
-        IValidate.validate(this.toAdd.containsKey(ui), IngeniousExceptionsFactory.illegalArgument("You are attempting to revert addition of a not existing argument {}.", ui));
+        validate(ui);
+        validate(this.toAdd.containsKey(ui), IngeniousExceptionsFactory.illegalArgument("You are attempting to revert addition of a not existing argument {}.", ui));
 
         this.toAdd.remove(ui);
     }
 
     public Item getAdd(Identifier ui) {
-        IValidate.validate(ui);
-        IValidate.validate(this.toAdd.containsKey(ui));
+        validate(ui);
+        validate(this.toAdd.containsKey(ui));
 
         return this.toAdd.get(ui);
     }
 
     public Item getDelete(Identifier ui) {
-        IValidate.validate(ui);
-        IValidate.validate(this.toDelete.containsKey(ui));
+        validate(ui);
+        validate(this.toDelete.containsKey(ui));
 
         return this.toDelete.get(ui);
     }

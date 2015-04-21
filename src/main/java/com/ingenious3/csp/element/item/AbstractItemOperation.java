@@ -21,7 +21,8 @@ import com.ingenious3.csp.element.Item;
 import com.ingenious3.csp.element.ItemDecorator;
 import com.ingenious3.identifier.Identifier;
 import com.ingenious3.identifier.UI;
-import com.ingenious3.validation.IValidate;
+
+import static com.ingenious3.validation.IValidate.validate;
 
 @Immutable
 public abstract class AbstractItemOperation extends UI implements ItemDecorator, Identifier {
@@ -30,10 +31,10 @@ public abstract class AbstractItemOperation extends UI implements ItemDecorator,
 
     enum ItemDecoratorType {ADD, REVERT_ADD, DELETE, REVERT_DELETE}
 
-    AbstractItemOperation(final Item item, ItemDecoratorType type){
+    AbstractItemOperation(final Item item, ItemDecoratorType type) {
         super(item);
 
-        IValidate.validate(item.getClass().isAnnotationPresent(Immutable.class));
+        validate(item.getClass().isAnnotationPresent(Immutable.class));
 
         this.item = item;
         this.type = type;

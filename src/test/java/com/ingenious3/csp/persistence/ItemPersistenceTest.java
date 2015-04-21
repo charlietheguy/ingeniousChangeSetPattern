@@ -79,6 +79,18 @@ public class ItemPersistenceTest {
         Assert.assertEquals("Persistence added", ITEMA, persistence.add(ITEMA).get(ITEMA));
     }
 
+    @Test(expected = IngeniousIllegalArgumentException.class)
+    public void testAddExistingItem(){
+        IItemPersistence persistence = FactoryImpl.createItemPersistence(ItemsReader.valueOf(new LinkedHashSet<Item>(){{add(ITEMA);}}), ItemsWriter.empty(), IPersistence.PERSIST_STRATEGY.ALWAYS_PERSIST);
+        persistence.add(ITEMA);
+    }
+
+    @Test(expected = IngeniousIllegalArgumentException.class)
+    public void testAddExistingPersistItem(){
+        IItemPersistence persistence = FactoryImpl.createItemPersistence(ItemsReader.valueOf(new LinkedHashSet<Item>(){{add(ITEMA);}}), ItemsWriter.empty(), IPersistence.PERSIST_STRATEGY.PERSIST_ON_DEMAND);
+        persistence.add(ITEMA);
+    }
+
     @Test
     public void testAlwaysPersistWriteAddition(){
         IItemPersistence persistence = FactoryImpl.createItemPersistence(ItemsReader.empty(), ItemsWriter.empty(), IPersistence.PERSIST_STRATEGY.ALWAYS_PERSIST);
