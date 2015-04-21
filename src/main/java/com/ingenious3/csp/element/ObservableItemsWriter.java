@@ -128,4 +128,7 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
     public boolean isEmpty() {
         return itemsWriter.isEmpty();
     }
+
+    @Override
+    public int size(){ return itemsWriter.size(); }
 }
