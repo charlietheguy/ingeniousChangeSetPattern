@@ -94,14 +94,14 @@ public final class ItemsWriter extends AbstractIItems<Item> implements IItemsWri
 
     public Item getAdd(Identifier ui) {
         validate(ui);
-        validate(this.toAdd.containsKey(ui));
+        validate(this.toAdd.containsKey(ui), IngeniousExceptionsFactory.runtime("Item to add already exist!"));
 
         return this.toAdd.get(ui);
     }
 
     public Item getDelete(Identifier ui) {
         validate(ui);
-        validate(this.toDelete.containsKey(ui));
+        validate(this.toDelete.containsKey(ui), IngeniousExceptionsFactory.runtime("Item to delete does not exist!"));
 
         return this.toDelete.get(ui);
     }

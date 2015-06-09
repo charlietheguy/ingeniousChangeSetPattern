@@ -19,6 +19,7 @@ package com.ingenious3.csp.persistence;
 import com.ingenious3.csp.element.FactoryImpl;
 import com.ingenious3.csp.element.Item;
 import com.ingenious3.exceptions.IngeniousIllegalArgumentException;
+import com.ingenious3.exceptions.IngeniousRuntimeException;
 import com.ingenious3.util.IngeniousUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -133,13 +134,13 @@ public class ItemsWriterTest {
         writer.markDeleted(ITEMA);
     }
 
-    @Test(expected = IngeniousIllegalArgumentException.class)
+    @Test(expected = IngeniousRuntimeException.class)
     public void testAddNegativeTest(){
         ItemsWriter writer = ItemsWriter.valueOf(IngeniousUtils.newConcurrentSet());
         writer.getAdd(ITEMA);
     }
 
-    @Test(expected = IngeniousIllegalArgumentException.class)
+    @Test(expected = IngeniousRuntimeException.class)
     public void testDeleteNegativeTest(){
         ItemsWriter writer = ItemsWriter.valueOf(IngeniousUtils.newConcurrentSet());
         writer.getDelete(ITEMA);

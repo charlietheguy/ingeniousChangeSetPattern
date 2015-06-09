@@ -5,4 +5,5 @@ def rootProjectDescriptor = settings.rootProject
 settings.createProjectDescriptor(rootProjectDescriptor, 'ig3-api', ig3ApiDir)
 
 include 'csp-api'
+include 'csp-impl'
 

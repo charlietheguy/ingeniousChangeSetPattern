@@ -1,0 +1,3 @@
+def ig3ApiDir = file('../ig3-api')
+def rootProjectDescriptor = settings.rootProject
+settings.createProjectDescriptor(rootProjectDescriptor, 'ig3-api', ig3ApiDir)

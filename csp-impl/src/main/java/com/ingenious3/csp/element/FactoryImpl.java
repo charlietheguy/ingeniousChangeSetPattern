@@ -82,7 +82,7 @@ public interface FactoryImpl {
     static <T> T createUI(Object id, IDTypes type) {
         switch (type){
             case String:
-                return (T)StringID.valueOf((String)id);
+                return (T)StringID.valueOf(id);
             default:
                 throw IngeniousExceptionsFactory.illegalArgument("Passed in object {} and type {}.", id, type);
         }

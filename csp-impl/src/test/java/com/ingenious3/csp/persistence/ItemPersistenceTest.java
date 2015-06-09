@@ -19,6 +19,7 @@ package com.ingenious3.csp.persistence;
 import com.ingenious3.csp.element.FactoryImpl;
 import com.ingenious3.csp.element.Item;
 import com.ingenious3.exceptions.IngeniousIllegalArgumentException;
+import com.ingenious3.exceptions.IngeniousRuntimeException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -55,7 +56,7 @@ public class ItemPersistenceTest {
         persistence.get(null);
     }
 
-    @Test(expected = IngeniousIllegalArgumentException.class)
+    @Test(expected = IngeniousRuntimeException.class)
     public void testGetNonExistingItem(){
         IItemPersistence persistence = FactoryImpl.createItemPersistence(ItemsReader.empty(), ItemsWriter.empty(), IPersistence.PERSIST_STRATEGY.ALWAYS_PERSIST);
         persistence.get(ITEMA);
@@ -103,7 +104,7 @@ public class ItemPersistenceTest {
         try {
             Assert.assertEquals("Persistence added", ITEMA, persistence.add(ITEMA).get(ITEMA));
             Assert.fail();
-        }catch (IngeniousIllegalArgumentException e){
+        }catch (IngeniousRuntimeException e){
             Assert.assertEquals("Persistence added", ITEMA, (persistence.persist()).get(ITEMA));
         }
     }

@@ -19,5 +19,6 @@ package com.ingenious3.csp.persistence;
 import com.ingenious3.identifier.Identifier;
 
 public interface IDecorator<T> extends Identifier {
+    //TODO: Remove, because implementations empty?
     T item();
 }

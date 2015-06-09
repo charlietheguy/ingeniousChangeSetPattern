@@ -37,6 +37,7 @@ tasks.withType(JavaCompile) {
 dependencies {
     compile project(':ig3-api')
     compile project(':csp-api')
+    compile project(':csp-impl')
 
     // Tests
     testCompile "junit:junit:$junitVersion"

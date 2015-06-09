@@ -56,8 +56,7 @@ public final class ItemPersistence implements IItemPersistence {
         validate(itemsWriter);
         validate(persistStrategy);
 
-        ItemPersistence persistence = new ItemPersistence(itemsReader, itemsWriter, persistStrategy);
-        return persistence;
+        return new ItemPersistence(itemsReader, itemsWriter, persistStrategy);
     }
 
     @Override

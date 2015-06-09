@@ -47,6 +47,6 @@ public abstract class AbstractItemOperation extends UI implements ItemDecorator,
 
     @Override
     public String toString(){
-        return new StringBuilder(type.name()).append(" : ").append(item.toString()).toString();
+        return new StringBuilder().append(type.name()).append(" : ").append(item.toString()).toString();
     }
 }
