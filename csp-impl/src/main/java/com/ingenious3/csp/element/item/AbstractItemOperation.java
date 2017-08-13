@@ -17,8 +17,8 @@
 package com.ingenious3.csp.element.item;
 
 import com.ingenious3.annotations.Immutable;
-import com.ingenious3.csp.element.Item;
-import com.ingenious3.csp.element.ItemDecorator;
+import com.ingenious3.element.Item;
+import com.ingenious3.element.ItemDecorator;
 import com.ingenious3.identifier.Identifier;
 import com.ingenious3.identifier.UI;
 

@@ -18,7 +18,7 @@ package com.ingenious3.csp.persistence;
 
 import com.ingenious3.annotations.Immutable;
 import com.ingenious3.collections.AbstractIItems;
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.element.Item;
 import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.util.IngeniousUtils;
 

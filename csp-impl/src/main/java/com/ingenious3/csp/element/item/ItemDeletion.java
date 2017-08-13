@@ -17,7 +17,7 @@
 package com.ingenious3.csp.element.item;
 
 import com.ingenious3.annotations.Immutable;
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.element.Item;
 
 @Immutable
 public final class ItemDeletion extends AbstractItemOperation {

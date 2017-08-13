@@ -16,7 +16,7 @@
  */
 package com.ingenious3.csp.reader;
 
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.element.Item;
 
 public interface IItemsReader extends Reader<Item> {
 }

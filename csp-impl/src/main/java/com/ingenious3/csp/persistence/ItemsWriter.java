@@ -21,7 +21,7 @@ import com.ingenious3.annotations.Review;
 import com.ingenious3.builder.ImmutableItemsBuilder;
 import com.ingenious3.collections.AbstractIItems;
 import com.ingenious3.collections.IItems;
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.element.Item;
 import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
 import com.ingenious3.identifier.Identifier;

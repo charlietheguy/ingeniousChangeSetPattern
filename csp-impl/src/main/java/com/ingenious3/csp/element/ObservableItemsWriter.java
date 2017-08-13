@@ -18,6 +18,7 @@ package com.ingenious3.csp.element;
 
 import com.ingenious3.annotations.Mutable;
 import com.ingenious3.csp.writer.IItemsWriter;
+import com.ingenious3.element.Item;
 import com.ingenious3.identifier.Identifier;
 
 import java.util.Observable;

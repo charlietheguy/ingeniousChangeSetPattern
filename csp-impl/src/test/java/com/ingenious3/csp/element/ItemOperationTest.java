@@ -16,6 +16,7 @@
  */
 package com.ingenious3.csp.element;
 
+import com.ingenious3.element.ItemDecorator;
 import com.ingenious3.exceptions.IngeniousIllegalArgumentException;
 import org.junit.Assert;
 import org.junit.Test;

@@ -17,7 +17,7 @@
 package com.ingenious3.csp.persistence;
 
 import com.ingenious3.csp.element.FactoryImpl;
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.element.Item;
 import com.ingenious3.exceptions.IngeniousIllegalArgumentException;
 import com.ingenious3.exceptions.IngeniousRuntimeException;
 import com.ingenious3.util.IngeniousUtils;

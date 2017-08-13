@@ -18,7 +18,7 @@ package com.ingenious3.csp.builder;
 
 import com.google.common.collect.Sets;
 import com.ingenious3.csp.element.FactoryImpl;
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.element.Item;
 import com.ingenious3.csp.persistence.ItemsReader;
 import com.ingenious3.exceptions.IngeniousIllegalArgumentException;
 import org.junit.Assert;

@@ -17,7 +17,7 @@
 package com.ingenious3.csp.writer;
 
 import com.ingenious3.annotations.Mutable;
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.element.Item;
 
 @Mutable
 public interface IItemsWriter extends Writer<Item> {

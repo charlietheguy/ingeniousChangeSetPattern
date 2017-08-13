@@ -21,7 +21,7 @@ import com.ingenious3.annotations.Mutable;
 import com.ingenious3.collections.IItems;
 import com.ingenious3.csp.element.FactoryImpl;
 import com.ingenious3.csp.element.IObservableItemsWriter;
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.element.Item;
 import com.ingenious3.csp.persistence.ItemsReader;
 import com.ingenious3.csp.persistence.ItemsWriter;
 

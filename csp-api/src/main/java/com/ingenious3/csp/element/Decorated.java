@@ -17,7 +17,7 @@
 package com.ingenious3.csp.element;
 
 import com.ingenious3.collections.IItems;
-import com.ingenious3.csp.persistence.IDecorator;
+import com.ingenious3.element.IDecorator;
 
 /**
  * (?)

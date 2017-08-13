@@ -19,7 +19,7 @@ package com.ingenious3.csp;
 import com.google.common.collect.Sets;
 import com.ingenious3.csp.element.FactoryImpl;
 import com.ingenious3.csp.element.IObservableItemsWriter;
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.element.Item;
 import com.ingenious3.csp.element.ObservableItemsWriter;
 import com.ingenious3.csp.persistence.IPersistence;
 import com.ingenious3.csp.persistence.ItemPersistenceObservable;

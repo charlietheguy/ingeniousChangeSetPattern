@@ -19,8 +19,9 @@ package com.ingenious3.csp.persistence;
 import com.ingenious3.annotations.Immutable;
 import com.ingenious3.collections.AbstractIItems;
 import com.ingenious3.csp.element.Decorated;
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.element.Item;
 import com.ingenious3.util.IngeniousUtils;
+import com.ingenious3.element.IDecorator;
 
 import java.util.Set;
 

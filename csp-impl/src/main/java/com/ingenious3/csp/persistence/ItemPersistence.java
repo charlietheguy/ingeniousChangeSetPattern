@@ -20,7 +20,7 @@ import com.ingenious3.annotations.Mutable;
 import com.ingenious3.builder.ImmutableItemsBuilder;
 import com.ingenious3.csp.element.Decorated;
 import com.ingenious3.csp.element.FactoryImpl;
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.element.Item;
 import com.ingenious3.csp.element.item.ItemAddition;
 import com.ingenious3.csp.element.item.ItemDeletion;
 import com.ingenious3.csp.element.item.ItemRevertAddition;

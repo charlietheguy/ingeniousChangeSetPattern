@@ -18,7 +18,7 @@ package com.ingenious3.csp;
 
 import com.ingenious3.csp.builder.ItemsBuilder;
 import com.ingenious3.csp.element.FactoryImpl;
-import com.ingenious3.csp.element.Item;
+import com.ingenious3.element.Item;
 import com.ingenious3.csp.persistence.IItemPersistence;
 import com.ingenious3.csp.persistence.ItemsWriter;
 import com.ingenious3.exceptions.IngeniousRuntimeException;
