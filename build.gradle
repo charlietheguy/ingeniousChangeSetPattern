@@ -7,11 +7,11 @@ version = '0.9'
 
 // Versions of dependencies
 def slf4jVersion = '1.7+'
-def logbackVersion = '1.+'
-def junitVersion = '4.11'
+def logbackVersion = '1.2+'
+def junitVersion = '4.12+'
 
 buildscript {
-    def coberturaVersion = '2.2.7'
+    def coberturaVersion = '2.5+'
 
     repositories {
         mavenCentral()
@@ -50,10 +50,9 @@ cobertura {
 }
 
 subprojects {
-    apply plugin: 'application'
     apply plugin: 'java'
 
-    def googleGuavaVersion = '12.0'
+    def googleGuavaVersion = '19.0'
 
     repositories {
         mavenCentral()

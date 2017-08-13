@@ -19,5 +19,9 @@ package com.ingenious3.csp.element;
 import com.ingenious3.collections.IItems;
 import com.ingenious3.csp.persistence.IDecorator;
 
+/**
+ * (?)
+ * @param <T>
+ */
 public interface Decorated<T> extends IItems<IDecorator<T>> {
 }

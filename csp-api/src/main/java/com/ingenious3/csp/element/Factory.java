@@ -16,5 +16,8 @@
  */
 package com.ingenious3.csp.element;
 
+/**
+ * Generic factory interface, for now empty.
+ */
 public interface Factory {
 }

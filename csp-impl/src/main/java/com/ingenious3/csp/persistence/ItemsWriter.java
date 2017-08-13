@@ -27,15 +27,14 @@ import com.ingenious3.exceptions.IngeniousExceptionsFactory;
 import com.ingenious3.identifier.Identifier;
 import com.ingenious3.util.IngeniousUtils;
 
-import javax.annotation.concurrent.NotThreadSafe;
+//import javax.annotation.concurrent.NotThreadSafe;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
 import static com.ingenious3.validation.IValidate.validate;
 
-@NotThreadSafe
-@Mutable
+@Mutable(threadSafety = false)
 public final class ItemsWriter extends AbstractIItems<Item> implements IItemsWriter {
 
     private final Map<Identifier, Item> toDelete;
