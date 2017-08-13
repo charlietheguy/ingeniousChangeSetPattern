@@ -20,7 +20,12 @@ import com.ingenious3.csp.element.item.ItemAddition;
 import com.ingenious3.csp.element.item.ItemDeletion;
 import com.ingenious3.csp.element.item.ItemRevertAddition;
 import com.ingenious3.csp.element.item.ItemRevertDeletion;
-import com.ingenious3.csp.persistence.*;
+import com.ingenious3.csp.persistence.IDecorator;
+import com.ingenious3.csp.persistence.IItemPersistence;
+import com.ingenious3.csp.persistence.IPersistence;
+import com.ingenious3.csp.persistence.ItemPersistence;
+import com.ingenious3.csp.persistence.ItemsReader;
+import com.ingenious3.csp.persistence.ItemsWriter;
 import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.csp.writer.IItemsWriter;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
@@ -29,8 +34,11 @@ import com.ingenious3.util.IngeniousUtils;
 
 import java.util.Set;
 
+/**
+ * (?).
+ */
 public interface FactoryImpl {
-    public static Item createStringItem(String id){
+    static Item createStringItem(String id) {
         return Item.valueOf(FactoryImpl.uiString(id));
     }
 
@@ -72,17 +80,17 @@ public interface FactoryImpl {
         return ObservableItemsWriter.valueOf(itemsWriter);
     }
 
-    public enum IDTypes {Long, String}
+    enum IDTypes { /** Long, . **/ String }
 
-    static StringID uiString(Object id){
+    static StringID uiString(Object id) {
         return createUI(id, IDTypes.String);
     }
 
     @SuppressWarnings("unchecked")
     static <T> T createUI(Object id, IDTypes type) {
-        switch (type){
+        switch (type) {
             case String:
-                return (T)StringID.valueOf(id);
+                return (T) StringID.valueOf(id);
             default:
                 throw IngeniousExceptionsFactory.illegalArgument("Passed in object {} and type {}.", id, type);
         }

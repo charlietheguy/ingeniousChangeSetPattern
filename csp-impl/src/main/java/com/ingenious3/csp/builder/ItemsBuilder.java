@@ -34,7 +34,7 @@ public class ItemsBuilder {
 
     private Set<Item> set;
 
-    public ItemsBuilder (Set<Item> set){
+    public ItemsBuilder(Set<Item> set) {
         validate(set);
         this.set = IItems.unmodifiableSet(set);
     }

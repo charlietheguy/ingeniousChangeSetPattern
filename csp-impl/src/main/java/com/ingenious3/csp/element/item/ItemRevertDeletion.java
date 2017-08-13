@@ -20,7 +20,7 @@ import com.ingenious3.annotations.Immutable;
 import com.ingenious3.csp.element.Item;
 
 @Immutable
-public class ItemRevertDeletion extends AbstractItemOperation{
+public class ItemRevertDeletion extends AbstractItemOperation {
     public ItemRevertDeletion(Item item) {
         super(item, ItemDecoratorType.REVERT_DELETE);
     }

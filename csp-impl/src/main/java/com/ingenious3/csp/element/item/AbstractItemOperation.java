@@ -29,7 +29,7 @@ public abstract class AbstractItemOperation extends UI implements ItemDecorator,
     private final Item item;
     private final ItemDecoratorType type;
 
-    enum ItemDecoratorType {ADD, REVERT_ADD, DELETE, REVERT_DELETE}
+    enum ItemDecoratorType { ADD, REVERT_ADD, DELETE, REVERT_DELETE }
 
     AbstractItemOperation(final Item item, ItemDecoratorType type) {
         super(item);
@@ -41,12 +41,12 @@ public abstract class AbstractItemOperation extends UI implements ItemDecorator,
     }
 
     @Override
-    public Item item(){
+    public Item item() {
         return item;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return new StringBuilder().append(type.name()).append(" : ").append(item.toString()).toString();
     }
 }

@@ -118,5 +118,7 @@ public final class ItemsWriter extends AbstractIItems<Item> implements IItemsWri
     }
 
 
-    public static ItemsWriter empty(){return valueOf(IngeniousUtils.newConcurrentSet());}
+    public static ItemsWriter empty() {
+        return valueOf(IngeniousUtils.newConcurrentSet());
+    }
 }

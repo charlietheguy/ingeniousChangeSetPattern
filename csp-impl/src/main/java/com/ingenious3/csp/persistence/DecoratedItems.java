@@ -35,5 +35,7 @@ public final class DecoratedItems extends AbstractIItems<IDecorator<Item>> imple
         return new DecoratedItems(set);
     }
 
-    public static DecoratedItems empty(){return DecoratedItems.valueOf(IngeniousUtils.newConcurrentSet());}
+    public static DecoratedItems empty() {
+        return DecoratedItems.valueOf(IngeniousUtils.newConcurrentSet());
+    }
 }

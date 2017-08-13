@@ -17,7 +17,11 @@
 package com.ingenious3.csp.persistence;
 
 import com.ingenious3.annotations.Mutable;
-import com.ingenious3.csp.element.*;
+import com.ingenious3.csp.element.Decorated;
+import com.ingenious3.csp.element.FactoryImpl;
+import com.ingenious3.csp.element.IObservableItemsWriter;
+import com.ingenious3.csp.element.Item;
+import com.ingenious3.csp.element.ItemDecorator;
 import com.ingenious3.csp.reader.IItemsReader;
 import com.ingenious3.csp.reader.Reader;
 import com.ingenious3.exceptions.IngeniousExceptionsFactory;
@@ -56,13 +60,13 @@ public final class ItemPersistenceObservable implements IPersistenceDecorator, O
     public void update(Observable o, Object arg) {
         validate(arg);
 
-        if(!(arg instanceof ItemDecorator)){
+        if (!(arg instanceof ItemDecorator)) {
             throw IngeniousExceptionsFactory.illegalArgument("ItemDecorator type expected, not {}.", arg.getClass());
         }
 
-        ItemDecorator itemDecorator = (ItemDecorator)arg;
+        ItemDecorator itemDecorator = (ItemDecorator) arg;
 
-        if(persistence.alwaysPersist()) {
+        if (persistence.alwaysPersist()) {
             this.persistence = persist(itemDecorator);
         }
         LOG.info("================= Tried to work it out.{}", itemDecorator);

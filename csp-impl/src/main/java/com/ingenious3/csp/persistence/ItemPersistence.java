@@ -39,13 +39,13 @@ import static com.ingenious3.validation.IValidate.validate;
 @Mutable
 public final class ItemPersistence implements IItemPersistence {
 
-    private final static Logger LOG = LoggerFactory.getLogger(ItemPersistence.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ItemPersistence.class);
 
     private final PERSIST_STRATEGY persistStrategy;
     private final IItemsReader read;
     private final IItemsWriter write;
 
-    private ItemPersistence(IItemsReader itemsReader, IItemsWriter itemsWriter, PERSIST_STRATEGY persistStrategy){
+    private ItemPersistence(IItemsReader itemsReader, IItemsWriter itemsWriter, PERSIST_STRATEGY persistStrategy) {
         this.read = itemsReader;
         this.write = itemsWriter;
         this.persistStrategy = persistStrategy;
@@ -73,7 +73,7 @@ public final class ItemPersistence implements IItemPersistence {
         validate(!read.containsKey(item), IngeniousExceptionsFactory.illegalArgument("Item {} already exists in reader.", item));
 
         this.write.add(item);
-        if(alwaysPersist()){
+        if (alwaysPersist()) {
             return persist();
         }
         return this;
@@ -90,7 +90,7 @@ public final class ItemPersistence implements IItemPersistence {
         validate(!read.containsKey(item), IngeniousExceptionsFactory.illegalArgument("Item {} doesn't exist in reader.", item));
 
         this.write.markDeleted(item);
-        if(alwaysPersist()){
+        if (alwaysPersist()) {
             return persist();
         }
         return this;
@@ -118,13 +118,13 @@ public final class ItemPersistence implements IItemPersistence {
         final ImmutableItemsBuilder<Item> builder = new ImmutableItemsBuilder<>(read.items());
 
         decorator.items().parallelStream().forEach(item -> {
-            if(item instanceof ItemAddition){
+            if (item instanceof ItemAddition) {
                 builder.add(item.item());
-            }else if(item instanceof ItemRevertAddition){
+            } else if (item instanceof ItemRevertAddition) {
                 builder.remove(item.item());
-            }else if(item instanceof ItemDeletion){
+            } else if (item instanceof ItemDeletion) {
                 builder.remove(item.item());
-            }else if(item instanceof ItemRevertDeletion){
+            } else if (item instanceof ItemRevertDeletion) {
                 builder.add(item.item());
             }
         });

@@ -34,7 +34,7 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
         this.itemsWriter = itemsWriter;
     }
 
-    public static ObservableItemsWriter valueOf(IItemsWriter writer){
+    public static ObservableItemsWriter valueOf(IItemsWriter writer) {
         return new ObservableItemsWriter(writer);
     }
 
@@ -130,5 +130,7 @@ public class ObservableItemsWriter extends Observable implements IObservableItem
     }
 
     @Override
-    public int size(){ return itemsWriter.size(); }
+    public int size() {
+        return itemsWriter.size();
+    }
 }
